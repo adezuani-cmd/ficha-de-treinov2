@@ -1,4 +1,4 @@
-//document.getElementById('form-aluno').addEventListener('submit', function(event) {
+document.getElementById('form-aluno').addEventListener('submit', function(event) {
     event.preventDefault();
 
     const nome = document.getElementById('nome').value;
@@ -11,7 +11,6 @@
     document.getElementById('boas-vindas-user').innerText = `Ficha de Treino • ${nome}`;
     document.getElementById('detalhes-user').innerText = `${idade} anos | ${peso} kg | Objetivo: ${textoObjetivo}`;
 
-    // Oculta/Mostra fichas de acordo com o objetivo escolhido
     if (objetivo === 'perda') {
         document.getElementById('ficha-perda').classList.remove('oculto');
         document.getElementById('ficha-ganho').classList.add('oculto');
@@ -29,7 +28,6 @@ document.getElementById('btn-voltar').addEventListener('click', function() {
     document.getElementById('tela-boas-vindas').classList.remove('oculto');
 });
 
-// Barra de Progresso nos cards de treino
 document.querySelectorAll('.card-treino').forEach(card => {
     const checkboxes = card.querySelectorAll('.chk-exercicio');
     const barraFill = card.querySelector('.barra-progresso-fill');
