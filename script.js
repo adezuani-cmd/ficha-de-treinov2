@@ -1,5 +1,4 @@
-// Ação do Formulário de Boas-Vindas
-document.getElementById('form-aluno').addEventListener('submit', function(event) {
+//document.getElementById('form-aluno').addEventListener('submit', function(event) {
     event.preventDefault();
 
     const nome = document.getElementById('nome').value;
@@ -12,17 +11,25 @@ document.getElementById('form-aluno').addEventListener('submit', function(event)
     document.getElementById('boas-vindas-user').innerText = `Ficha de Treino • ${nome}`;
     document.getElementById('detalhes-user').innerText = `${idade} anos | ${peso} kg | Objetivo: ${textoObjetivo}`;
 
+    // Oculta/Mostra fichas de acordo com o objetivo escolhido
+    if (objetivo === 'perda') {
+        document.getElementById('ficha-perda').classList.remove('oculto');
+        document.getElementById('ficha-ganho').classList.add('oculto');
+    } else {
+        document.getElementById('ficha-ganho').classList.remove('oculto');
+        document.getElementById('ficha-perda').classList.add('oculto');
+    }
+
     document.getElementById('tela-boas-vindas').classList.add('oculto');
     document.getElementById('tela-treinos').classList.remove('oculto');
 });
 
-// Botão para alterar perfil
 document.getElementById('btn-voltar').addEventListener('click', function() {
     document.getElementById('tela-treinos').classList.add('oculto');
     document.getElementById('tela-boas-vindas').classList.remove('oculto');
 });
 
-// Lógica de cálculo da Barra de Progresso em cada Card
+// Barra de Progresso nos cards de treino
 document.querySelectorAll('.card-treino').forEach(card => {
     const checkboxes = card.querySelectorAll('.chk-exercicio');
     const barraFill = card.querySelector('.barra-progresso-fill');
@@ -35,11 +42,9 @@ document.querySelectorAll('.card-treino').forEach(card => {
             const checados = card.querySelectorAll('.chk-exercicio:checked').length;
             const porcentagem = Math.round((checados / total) * 100);
 
-            // Atualiza tamanho da barra e texto de porcentagem
             barraFill.style.width = `${porcentagem}%`;
             textoProgresso.innerText = `${porcentagem}%`;
 
-            // Mostra ou esconde mensagem de treino concluído
             if (porcentagem === 100) {
                 msgConcluido.classList.remove('oculto');
             } else {
