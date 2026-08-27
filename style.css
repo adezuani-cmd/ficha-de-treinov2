@@ -287,4 +287,7 @@ input[type="checkbox"]:checked + .info-exercicio {
     color: #999999;
     margin-top: 4px;
     font-size: 0.85rem;
+    }
+    .oculto {
+    display: none !important;
 }
