@@ -1,29 +1,83 @@
+/* Configuração geral e fonte moderna */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
+    background-color: #f4f7f9;
     color: #333;
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    min-height: 100vh;
 }
 
+/* Título principal */
 h1 {
-    color: #2c3e50;
-    text-align: center;
+    color: #1a252f;
+    font-size: 2.2rem;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
+/* Subtítulo do treino */
+h2 {
+    color: #2c3e50;
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    align-self: flex-start;
+    max-width: 650px;
+    width: 100%;
+}
+
+/* Estilização da tabela */
 table {
     width: 100%;
+    max-width: 650px;
     border-collapse: collapse;
-    margin-top: 20px;
-    background-color: #fff;
+    background-color: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
-th, td {
-    border: 1px solid #ddd;
-    padding: 12px;
+/* Cabeçalho da tabela */
+th {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: #ffffff;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    padding: 16px;
     text-align: center;
 }
 
-th {
-    background-color: #007bff;
-    color: white;
+/* Linhas e células */
+td {
+    padding: 14px 16px;
+    text-align: center;
+    border-bottom: 1px solid #eef2f5;
+    font-size: 0.95rem;
+}
+
+/* Efeito zebrado suave */
+tbody tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+/* Efeito ao passar o mouse por cima da linha */
+tbody tr:hover {
+    background-color: #eef6ff;
+    transition: background-color 0.2s ease;
+}
+
+/* Remove a borda da última linha */
+tbody tr:last-child td {
+    border-bottom: none;
 }
