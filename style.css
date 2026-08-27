@@ -11,41 +11,233 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 30px 15px;
+    padding: 20px 15px;
+    min-height: 100vh;
+}
+
+/* TELA DE BOAS-VINDAS */
+.container-box {
+    background-color: #1a1a1a;
+    border-top: 5px solid #e50914;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 450px;
+    padding: 30px 25px;
+    box-shadow: 0 8px 25px rgba(229, 9, 20, 0.2);
+    margin-top: 40px;
 }
 
 h1 {
     color: #e50914;
-    font-size: 2.2rem;
-    margin-bottom: 25px;
+    font-size: 2rem;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
     text-align: center;
+    margin-bottom: 5px;
 }
 
+.subtitulo {
+    color: #999;
+    font-size: 0.9rem;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.input-group-row {
+    display: flex;
+    gap: 15px;
+}
+
+label {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin-bottom: 8px;
+}
+
+input[type="text"],
+input[type="number"] {
+    background-color: #262626;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 12px;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    transition: border 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+    border-color: #e50914;
+}
+
+.objetivos-container {
+    display: flex;
+    gap: 10px;
+}
+
+.radio-card {
+    flex: 1;
+    cursor: pointer;
+}
+
+.radio-card input {
+    display: none;
+}
+
+.radio-card span {
+    display: block;
+    background-color: #262626;
+    border: 2px solid #333;
+    padding: 12px 8px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #aaa;
+    transition: all 0.3s;
+}
+
+.radio-card input:checked + span {
+    border-color: #e50914;
+    background-color: #2a080a;
+    color: #fff;
+}
+
+.btn-primary {
+    width: 100%;
+    background-color: #e50914;
+    color: #fff;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 10px;
+}
+
+.btn-primary:hover {
+    background-color: #b80710;
+}
+
+.btn-secundario {
+    background-color: transparent;
+    border: 1px solid #e50914;
+    color: #e50914;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.container-treinos {
+    width: 100%;
+    max-width: 650px;
+}
+
+.oculto {
+    display: none !important;
+}
+
+.header-perfil {
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    border-left: 5px solid #e50914;
+}
+
+.header-perfil h2 {
+    color: #fff;
+    font-size: 1.4rem;
+}
+
+.header-perfil p {
+    color: #999;
+    font-size: 0.85rem;
+    margin-top: 4px;
+}
+
+/* CARDS E BARRA DE PROGRESSO */
 .card-treino {
     background-color: #1a1a1a;
     border-left: 5px solid #e50914;
     border-radius: 10px;
     width: 100%;
-    max-width: 650px;
     padding: 20px;
     margin-bottom: 25px;
     box-shadow: 0 4px 15px rgba(229, 9, 20, 0.15);
+}
+
+.header-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
 .card-treino h2 {
     color: #ffffff;
     font-size: 1.3rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
 }
 
 .card-treino h3 {
     color: #b3b3b3;
     font-size: 1rem;
     font-weight: 400;
+}
+
+.progresso-texto {
+    color: #e50914;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.barra-progresso-bg {
+    width: 100%;
+    height: 8px;
+    background-color: #262626;
+    border-radius: 10px;
+    margin: 15px 0;
+    overflow: hidden;
+}
+
+.barra-progresso-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #b80710, #e50914);
+    border-radius: 10px;
+    transition: width 0.4s ease;
+}
+
+.mensagem-concluido {
+    background-color: #1a381e;
+    color: #4cd964;
+    border: 1px solid #28a745;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: bold;
     margin-bottom: 15px;
+    font-size: 0.9rem;
+    animation: popIn 0.3s ease;
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.9); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
 }
 
 ul {
@@ -60,14 +252,8 @@ li {
     padding: 12px 15px;
     border-radius: 8px;
     margin-bottom: 10px;
-    transition: background 0.2s ease;
 }
 
-li:hover {
-    background-color: #2e2e2e;
-}
-
-/* Customização da caixinha de seleção */
 input[type="checkbox"] {
     accent-color: #e50914;
     width: 22px;
@@ -76,7 +262,6 @@ input[type="checkbox"] {
     margin-top: 3px;
 }
 
-/* Efeito ao marcar o exercício */
 input[type="checkbox"]:checked + .info-exercicio {
     opacity: 0.4;
     text-decoration: line-through;
