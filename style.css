@@ -393,4 +393,13 @@ li.item-exercicio {
 
 .oculto {
     display: none !important;
+    /* Remove o fundo branco/azul do autocomplete nativo no Dark Mode */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #1f1f1f inset !important;
+    -webkit-text-fill-color: #ffffff !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
 }

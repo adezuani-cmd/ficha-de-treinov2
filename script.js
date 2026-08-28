@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 { id: "p_a2", nome: "2. Agachamento Hack Machine ou Smith", series: "4x 10 reps", descanso: "90s", obs: "Controle bem a descida (3 segundos descendo).", guia: "Coluna bem apoiada. Desça suavemente mantendo a tensão na coxa." },
                 { id: "p_a3", nome: "3. Cadeira Extensora", series: "4x 12 reps", descanso: "60s", obs: "Segure 2 segundos no topo em cada repetição.", guia: "Joelho alinhado ao eixo do aparelho. Esmague a coxa no topo." },
                 { id: "p_a4", nome: "4. Passada (Afundo) Caminhando", series: "3x 20 passos totais", descanso: "60s", obs: "Passos firmes e controlados.", guia: "Tronco levemente inclinado para frente, joelho da frente dobrando a 90º." },
-                { id: "p_a5", nome: "5. Gêmeos Sentada (Panturrilha)", series: "4x 15 reps", descanso: "45s", obs: "Pausa rápida no topo.", guia: "Desça o máximo o calcanhar para alongar e suba até contrair a panturrilha." }
+                { id: "p_a5", nome: "5. Gêmeos Sentada (Panturrilha)", series: "4x 15 reps", descanso: "45s", obs: "Pausa rápida no topo.", guia: "Desça o máximo o calcanhar para locks e suba até contrair a panturrilha." }
             ]
         },
         {
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const dicasNutricao = [
         { titulo: "💧 1. Hidratação Constante", desc: "Beba no mínimo 35ml de água por quilo de peso corporal ao longo do dia. Exemplo: 60kg x 35ml = ~2.1 Litros por dia." },
         { titulo: "🥩 2. Proteínas em Todas as Refeições", desc: "Ovos, frango, carne, peixe ou whey ajudam na recuperação muscular e mantêm a saciedade por mais tempo." },
-        { titulo: "🍚 3. Carboidratos Inteligentes", desc: "Consuma arroz, batata, aveia ou mandioca antes do treino para ter energia maxima durante as séries." },
+        { titulo: "🍚 3. Carboidratos Inteligentes", desc: "Consuma arroz, batata, aveia ou mandioca antes do treino para ter energia máxima durante as séries." },
         { titulo: "💤 4. Sono Reparador", desc: "Treino gera o estímulo, o descanso gera o resultado. Tente dormir entre 7 a 8 horas por noite." }
     ];
 
@@ -166,11 +166,18 @@ document.addEventListener('DOMContentLoaded', () => {
             dadosAluno.nome = document.getElementById('nome').value;
             dadosAluno.idade = document.getElementById('idade').value;
             dadosAluno.pesoAtual = parseFloat(document.getElementById('peso').value);
-            dadosAluno.objetivo = document.querySelector('input[name="objetivo"]:checked').value;
+            
+            const objetivoInput = document.querySelector('input[name="objetivo"]:checked');
+            if (objetivoInput) {
+                dadosAluno.objetivo = objetivoInput.value;
+            }
 
-            document.getElementById('label-peso-desejado').innerText = dadosAluno.objetivo === 'perda' 
-                ? 'Peso Desejado para Emagrecer (kg):' 
-                : 'Peso Desejado para Ganhar (kg):';
+            const labelPesoDesejado = document.getElementById('label-peso-desejado');
+            if (labelPesoDesejado) {
+                labelPesoDesejado.innerText = dadosAluno.objetivo === 'perda' 
+                    ? 'Peso Desejado para Emagrecer (kg):' 
+                    : 'Peso Desejado para Ganhar (kg):';
+            }
 
             localStorage.setItem('dadosAluno', JSON.stringify(dadosAluno));
 
@@ -183,7 +190,14 @@ document.addEventListener('DOMContentLoaded', () => {
         formMetas.addEventListener('submit', (e) => {
             e.preventDefault();
             dadosAluno.pesoMeta = parseFloat(document.getElementById('peso-meta').value);
-            dadosAluno.meses = parseInt(document.getElementById('prazo-meses').value);
+            dadosAluno.meses = parseInt(document.getElementById('prazo-meses').value, 10);
+
+            // REGRA DE NEGÓCIO: Define automaticamente se é ganho ou perda de peso
+            if (dadosAluno.pesoMeta > dadosAluno.pesoAtual) {
+                dadosAluno.objetivo = 'ganho';
+            } else if (dadosAluno.pesoMeta < dadosAluno.pesoAtual) {
+                dadosAluno.objetivo = 'perda';
+            }
 
             localStorage.setItem('dadosAluno', JSON.stringify(dadosAluno));
 
@@ -191,18 +205,23 @@ document.addEventListener('DOMContentLoaded', () => {
             const resultadoContainer = document.getElementById('resultado-meta');
 
             let diferencaPeso = Math.abs(dadosAluno.pesoAtual - dadosAluno.pesoMeta);
-            let metaMensal = (diferencaPeso / dadosAluno.meses).toFixed(1);
+            let metaMensal = (diferencaPeso / (dadosAluno.meses || 1)).toFixed(1);
+            let textoAcao = dadosAluno.objetivo === 'ganho' ? 'ganhar' : 'eliminar';
 
-            resumoBox.innerHTML = `
-                <div class="card-resultado-meta">
-                    <h3>🎯 Seu Planejamento Personaizado</h3>
-                    <p>Meta total: <strong>${diferencaPeso.toFixed(1)} kg</strong> em <strong>${dadosAluno.meses} mês(es)</strong></p>
-                    <p>📅 Ritmo recomendado: ~<strong>${metaMensal} kg/mês</strong></p>
-                    <span class="badge-ritmo" style="background-color: #2ea44f;">🟢 Meta Alcançável e Segura</span>
-                </div>
-            `;
+            if (resumoBox) {
+                resumoBox.innerHTML = `
+                    <div class="card-resultado-meta">
+                        <h3>🎯 Seu Planejamento Personalizado</h3>
+                        <p>Meta total: <strong>${textoAcao} ${diferencaPeso.toFixed(1)} kg</strong> em <strong>${dadosAluno.meses} mês(es)</strong></p>
+                        <p>📅 Ritmo recomendado: ~<strong>${metaMensal} kg/mês</strong></p>
+                        <span class="badge-ritmo" style="background-color: #2ea44f; color: #fff;">🟢 Meta Alcançável e Segura</span>
+                    </div>
+                `;
+            }
 
-            resultadoContainer.classList.remove('oculto');
+            if (resultadoContainer) {
+                resultadoContainer.classList.remove('oculto');
+            }
         });
     }
 
@@ -210,8 +229,11 @@ document.addEventListener('DOMContentLoaded', () => {
         btnAcessarFicha.addEventListener('click', () => {
             const textoObj = dadosAluno.objetivo === 'perda' ? 'Perda de Gordura' : 'Ganho de Massa';
 
-            document.getElementById('boas-vindas-user').innerText = `Ficha de ${dadosAluno.nome}`;
-            document.getElementById('detalhes-user').innerText = `${dadosAluno.pesoAtual}kg ➔ Meta ${dadosAluno.pesoMeta}kg (${textoObj})`;
+            const boasVindas = document.getElementById('boas-vindas-user');
+            const detalhes = document.getElementById('detalhes-user');
+
+            if (boasVindas) boasVindas.innerText = `Ficha de ${dadosAluno.nome || 'Aluno'}`;
+            if (detalhes) detalhes.innerText = `${dadosAluno.pesoAtual || 0}kg ➔ Meta ${dadosAluno.pesoMeta || 0}kg (${textoObj})`;
 
             renderizarFichas(dadosAluno.objetivo);
             renderizarDicas();
@@ -236,13 +258,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             e.target.classList.add('ativa');
             const idAba = e.target.getAttribute('data-aba');
-            document.getElementById(idAba).classList.remove('oculto');
+            const abaTarget = document.getElementById(idAba);
+            if (abaTarget) abaTarget.classList.remove('oculto');
         });
     });
 
     // MONTAGEM DAS FICHAS COM MÉTRICAS DE TEMPO E CALORIAS
     function renderizarFichas(objetivo) {
         const container = document.getElementById('fichas-container');
+        if (!container) return;
         container.innerHTML = '';
 
         const listaTreinos = objetivo === 'perda' ? treinosPerda : treinosGanho;
@@ -323,19 +347,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const porc = Math.round((concluidos / totalExer) * 100);
 
-        document.getElementById(`porc-${cardIdx}`).innerText = `${porc}%`;
-        document.getElementById(`barra-${cardIdx}`).style.width = `${porc}%`;
-
+        const porcElem = document.getElementById(`porc-${cardIdx}`);
+        const barraElem = document.getElementById(`barra-${cardIdx}`);
         const msgBox = document.getElementById(`msg-${cardIdx}`);
-        if (porc === 100) {
-            msgBox.classList.remove('oculto');
-        } else {
-            msgBox.classList.add('oculto');
+
+        if (porcElem) porcElem.innerText = `${porc}%`;
+        if (barraElem) barraElem.style.width = `${porc}%`;
+
+        if (msgBox) {
+            if (porc === 100) {
+                msgBox.classList.remove('oculto');
+            } else {
+                msgBox.classList.add('oculto');
+            }
         }
     }
 
     function renderizarDicas() {
         const box = document.getElementById('dicas-conteudo');
+        if (!box) return;
         box.innerHTML = '';
         dicasNutricao.forEach(dica => {
             box.innerHTML += `
@@ -351,7 +381,9 @@ document.addEventListener('DOMContentLoaded', () => {
 // GUIA EXPANSÍVEL
 function toggleGuia(id) {
     const box = document.getElementById(`guia-${id}`);
-    box.classList.toggle('oculto');
+    if (box) {
+        box.classList.toggle('oculto');
+    }
 }
 
 // CRONÔMETRO DE DESCANSO
@@ -383,5 +415,8 @@ function resetarTimer() {
 function atualizarDisplayTimer() {
     const min = String(Math.floor(tempoRestante / 60)).padStart(2, '0');
     const seg = String(tempoRestante % 60).padStart(2, '0');
-    document.getElementById('timer-display').innerText = `${min}:${seg}`;
+    const display = document.getElementById('timer-display');
+    if (display) {
+        display.innerText = `${min}:${seg}`;
+    }
 }
