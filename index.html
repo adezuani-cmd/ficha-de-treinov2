@@ -43,7 +43,7 @@
                 <div class="objetivos-container">
                     <label class="radio-card">
                         <input type="radio" name="objetivo" value="perda" checked>
-                        <span>🔥 Perda de Peso</span>
+                        <span>🔥 Perda de Gordura</span>
                     </label>
 
                     <label class="radio-card">
@@ -97,43 +97,8 @@
             <button id="btn-voltar" class="btn-secundario">Alterar Metas</button>
         </header>
 
-        <!-- FICHA: PERDA DE PESO -->
-        <div id="ficha-perda" class="container-ficha oculto">
-            <div class="card-treino">
-                <div class="header-card">
-                    <div><h2>Segunda-Feira • Treino A</h2><h3>Quadríceps e Panturrilhas</h3></div>
-                    <span class="progresso-texto">0%</span>
-                </div>
-                <div class="barra-progresso-bg"><div class="barra-progresso-fill"></div></div>
-                <div class="mensagem-concluido oculto">🎉 Treino Concluído! Parabéns!</div>
-                <ul>
-                    <li><input type="checkbox" class="chk-exercicio" data-id="p_a1"><div class="info-exercicio"><strong>1. Leg Press 45º</strong> — 4x (8 a 10 reps) | <i>90s descanso</i><small>Obs: Carga progressiva.</small></div></li>
-                    <li><input type="checkbox" class="chk-exercicio" data-id="p_a2"><div class="info-exercicio"><strong>2. Agachamento Hack Machine</strong> — 4x 10 reps | <i>90s descanso</i></div></li>
-                    <li><input type="checkbox" class="chk-exercicio" data-id="p_a3"><div class="info-exercicio"><strong>3. Cadeira Extensora</strong> — 4x 12 reps | <i>60s descanso</i></div></li>
-                    <li><input type="checkbox" class="chk-exercicio" data-id="p_a4"><div class="info-exercicio"><strong>4. Passada (Afundo) Caminhando</strong> — 3x 20 passos</div></li>
-                    <li><input type="checkbox" class="chk-exercicio" data-id="p_a5"><div class="info-exercicio"><strong>5. Gêmeos Sentada (Panturrilha)</strong> — 4x 15 reps</div></li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- FICHA: GANHO DE MASSA -->
-        <div id="ficha-ganho" class="container-ficha oculto">
-            <div class="card-treino">
-                <div class="header-card">
-                    <div><h2>Segunda-Feira • Treino A</h2><h3>Quadríceps e Panturrilhas</h3></div>
-                    <span class="progresso-texto">0%</span>
-                </div>
-                <div class="barra-progresso-bg"><div class="barra-progresso-fill"></div></div>
-                <div class="mensagem-concluido oculto">🎉 Treino Concluído! Parabéns!</div>
-                <ul>
-                    <li><input type="checkbox" class="chk-exercicio" data-id="g_a1"><div class="info-exercicio"><strong>1. Agachamento Livre</strong> — 4x (8 a 10 reps) | <i>90s descanso</i></div></li>
-                    <li><input type="checkbox" class="chk-exercicio" data-id="g_a2"><div class="info-exercicio"><strong>2. Leg Press Horizontal</strong> — 4x (10 a 12 reps)</div></li>
-                    <li><input type="checkbox" class="chk-exercicio" data-id="g_a3"><div class="info-exercicio"><strong>3. Cadeira Extensora Unilateral</strong> — 3x 12 reps</div></li>
-                    <li><input type="checkbox" class="chk-exercicio" data-id="g_a4"><div class="info-exercicio"><strong>4. Step-up no Banco</strong> — 3x 10 reps cada perna</div></li>
-                    <li><input type="checkbox" class="chk-exercicio" data-id="g_a5"><div class="info-exercicio"><strong>5. Panturrilha em Pé na Máquina</strong> — 4x (12 a 15 reps)</div></li>
-                </ul>
-            </div>
-        </div>
+        <!-- CONTAINER DAS FICHAS DINÂMICAS -->
+        <div id="fichas-container"></div>
     </div>
 
     <script src="script.js"></script>

@@ -19,7 +19,6 @@ body {
     text-align: center;
 }
 
-/* CONTAINER DAS TELAS */
 .container-box {
     background: #141414;
     border: 1px solid #280000;
@@ -57,7 +56,6 @@ h2 {
     margin-bottom: 25px;
 }
 
-/* INPUTS E FORMULÁRIO */
 .input-group {
     display: flex;
     flex-direction: column;
@@ -94,7 +92,6 @@ h2 {
     flex: 1;
 }
 
-/* RADIOS SELEÇÃO */
 .objetivos-container {
     display: flex;
     gap: 10px;
@@ -119,7 +116,6 @@ h2 {
     font-weight: bold;
 }
 
-/* BOTÕES */
 .btn-primary {
     width: 100%;
     background: #8b0000;
@@ -168,10 +164,9 @@ h2 {
     cursor: pointer;
 }
 
-/* RESULTADOS E TREINOS */
 .container-treinos {
     width: 100%;
-    max-width: 600px;
+    max-width: 650px;
 }
 
 .header-perfil {
@@ -206,8 +201,8 @@ h2 {
 }
 
 .header-card h3 {
-    font-size: 0.9rem;
-    color: #888;
+    font-size: 0.95rem;
+    color: #aaa;
 }
 
 .barra-progresso-bg {
@@ -225,16 +220,31 @@ h2 {
     transition: width 0.3s;
 }
 
+.mensagem-concluido {
+    background: #1e3a1e;
+    color: #4cd964;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
 ul {
     list-style: none;
 }
 
-li {
+li.item-exercicio {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 0;
+    border-bottom: 1px solid #222;
+}
+
+.exercicio-linha {
     display: flex;
     gap: 12px;
     align-items: flex-start;
-    padding: 10px 0;
-    border-bottom: 1px solid #222;
 }
 
 .info-exercicio strong {
@@ -247,8 +257,41 @@ li {
 
 .info-exercicio small {
     display: block;
-    color: #777;
+    color: #888;
     margin-top: 3px;
+}
+
+/* BOTÃO DE GUIA DE EXECUÇÃO */
+.btn-guia {
+    background: #1f1f1f;
+    border: 1px solid #333;
+    color: #ff6666;
+    font-size: 0.8rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 8px;
+    width: fit-content;
+    align-self: flex-start;
+}
+
+.btn-guia:hover {
+    background: #2a2a2a;
+}
+
+.box-execucao {
+    background: #181818;
+    border-left: 3px solid #ff3333;
+    padding: 10px 12px;
+    margin-top: 8px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    color: #ddd;
+    line-height: 1.4;
+}
+
+.box-execucao strong {
+    color: #ff6666;
 }
 
 .card-resultado-meta {
@@ -275,7 +318,6 @@ li {
     margin: 15px 0;
 }
 
-/* ESCONDER ELEMENTOS */
 .oculto {
     display: none !important;
 }
