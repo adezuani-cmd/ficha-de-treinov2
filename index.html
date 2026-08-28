@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Trainer App</title>
+    <title>FitPlanner - Seu Treino Simples & Objetivo</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <!-- TELA 1: BOAS-VINDAS CHAMATIVA -->
     <div id="tela-inicio" class="container-box text-center">
-        <h1 class="titulo-destaque">BEM-VINDO(A)!</h1>
-        <p class="frase-impacto">Vamos em busca da sua melhor performance? 🔥</p>
-        <button id="btn-iniciar" class="btn-primary btn-lg">Vamos prosseguir ➔</button>
+        <h1 class="titulo-destaque">FITPLANNER 🔥</h1>
+        <p class="frase-impacto">Seu treino simples, direto ao ponto e sem enrolação!</p>
+        <button id="btn-iniciar" class="btn-primary btn-lg">Começar Agora ➔</button>
     </div>
 
     <!-- TELA 2: CADASTRO DE PERFIL -->
     <div id="tela-perfil" class="container-box oculto">
-        <h2>Monte seu perfil inicial para começar</h2>
-        <p class="subtitulo">Preencha seus dados para personalizarmos seu treino.</p>
+        <h2>Monte seu perfil inicial</h2>
+        <p class="subtitulo">Preencha seus dados para personalizar seu ritmo.</p>
 
         <form id="form-aluno">
             <div class="input-group">
@@ -60,7 +60,7 @@
     <!-- TELA 3: CÁLCULO DE METAS -->
     <div id="tela-metas" class="container-box oculto">
         <h2 id="titulo-meta-aluno">Planejamento de Metas</h2>
-        <p class="subtitulo">Informe seu objetivo para calcularmos seu ritmo ideal.</p>
+        <p class="subtitulo">Qual sua meta de peso e em quanto tempo quer alcançar?</p>
 
         <form id="form-metas">
             <div class="input-group-row">
@@ -70,7 +70,7 @@
                 </div>
 
                 <div class="input-group">
-                    <label for="prazo-meses">Prazo Estimado (em Meses):</label>
+                    <label for="prazo-meses">Prazo Estimado (Meses):</label>
                     <input type="number" id="prazo-meses" min="1" max="24" placeholder="Ex: 3" required>
                 </div>
             </div>
@@ -82,23 +82,57 @@
             <div id="resumo-calculo-texto"></div>
             <hr class="divisor">
             <button id="btn-acessar-ficha" class="btn-destaque">
-                🚀 ACESSAR FICHA DE TREINO DE <span id="nome-destaque-btn">CLIENTE</span>
+                🚀 ACESSAR MINHA FICHA DE TREINO
             </button>
         </div>
     </div>
 
-    <!-- TELA 4: FICHA DE TREINOS -->
+    <!-- TELA 4: CONTAINER PRINCIPAL DO APP COM NAVEGAÇÃO POR ABAS -->
     <div id="tela-treinos" class="container-treinos oculto">
         <header class="header-perfil">
             <div class="info-user">
                 <h2 id="boas-vindas-user">Ficha de Treino</h2>
                 <p id="detalhes-user"></p>
             </div>
-            <button id="btn-voltar" class="btn-secundario">Alterar Metas</button>
+            <button id="btn-voltar" class="btn-secundario">Editar Perfil</button>
         </header>
 
-        <!-- CONTAINER DAS FICHAS DINÂMICAS -->
-        <div id="fichas-container"></div>
+        <!-- ABAS DE NAVEGAÇÃO -->
+        <nav class="nav-abas">
+            <button class="aba-btn ativa" data-aba="aba-fichas">📋 Meus Treinos</button>
+            <button class="aba-btn" data-aba="aba-cronometro">⏱️ Cronômetro</button>
+            <button class="aba-btn" data-aba="aba-dicas">🍏 Dicas Rápidas</button>
+        </nav>
+
+        <!-- CONTEÚDO DA ABA 1: FICHAS DE TREINO -->
+        <div id="aba-fichas" class="conteudo-aba">
+            <div id="fichas-container"></div>
+        </div>
+
+        <!-- CONTEÚDO DA ABA 2: CRONÔMETRO DE DESCANSO -->
+        <div id="aba-cronometro" class="conteudo-aba oculto">
+            <div class="card-treino text-center">
+                <h2>⏱️ Cronômetro de Descanso entre Séries</h2>
+                <p class="subtitulo">Mantenha seu ritmo de treino sob controle!</p>
+                <div class="timer-display" id="timer-display">00:45</div>
+                <div class="timer-botoes">
+                    <button class="btn-secundario" onclick="iniciarTimer(30)">30s</button>
+                    <button class="btn-secundario" onclick="iniciarTimer(45)">45s</button>
+                    <button class="btn-secundario" onclick="iniciarTimer(60)">60s</button>
+                    <button class="btn-secundario" onclick="iniciarTimer(90)">90s</button>
+                </div>
+                <button class="btn-primary" style="margin-top: 15px;" onclick="resetarTimer()">Pausar / Resetar</button>
+            </div>
+        </div>
+
+        <!-- CONTEÚDO DA ABA 3: DICAS DE NUTRIÇÃO SEM COMPLICAÇÃO -->
+        <div id="aba-dicas" class="conteudo-aba oculto">
+            <div class="card-treino">
+                <h2>🍏 Guia Nutricional Descomplicado</h2>
+                <p class="subtitulo">Sem termos técnicos difíceis: o básico para ter resultados!</p>
+                <div id="dicas-conteudo"></div>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>

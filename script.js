@@ -2,60 +2,69 @@ document.addEventListener('DOMContentLoaded', () => {
     let dadosAluno = JSON.parse(localStorage.getItem('dadosAluno')) || {};
     let progressoExer = JSON.parse(localStorage.getItem('progressoExer')) || {};
 
-    // DADOS DAS FICHAS COMPLETAS DE SEGUNDA A SEXTA
     const treinosPerda = [
         {
             dia: "Segunda-Feira • Treino A",
             foco: "🦵 Quadríceps e Panturrilhas",
+            tempoEst: "⏱️ ~50 min",
+            caloriasEst: "🔥 ~380 kcal",
             exercicios: [
-                { id: "p_a1", nome: "1. Leg Press 45º", series: "4x (8 a 10 reps)", descanso: "90s", obs: "Carga progressiva. Desça o máximo sem tirar o quadril do banco.", guia: "Postura: Pés alinhados na largura dos ombros. Empurre pelo calcanhar e mantenha o joelho firme sem travar no topo." },
-                { id: "p_a2", nome: "2. Agachamento Hack Machine ou Smith", series: "4x 10 reps", descanso: "90s", obs: "Controle bem a descida (3 segundos descendo).", guia: "Postura: Coluna bem apoiada. Desça suavemente mantendo a tensão na coxa." },
-                { id: "p_a3", nome: "3. Cadeira Extensora", series: "4x 12 reps", descanso: "60s", obs: "Segure 2 segundos no topo em cada repetição.", guia: "Postura: Ajuste o encosto para o joelho ficar alinhado ao eixo do aparelho. Esmague o quadríceps em cima." },
-                { id: "p_a4", nome: "4. Passada (Afundo) Caminhando", series: "3x 20 passos totais", descanso: "60s", obs: "Passos firmes e controlados.", guia: "Postura: Mantenha o tronco levemente inclinado para frente e o joelho da frente a 90º." },
-                { id: "p_a5", nome: "5. Gêmeos Sentada (Panturrilha)", series: "4x 15 reps", descanso: "45s", obs: "Pausa rápida no topo.", guia: "Postura: Desça o máximo o calcanhar para alongar e suba até contrair totalmente a panturrilha." }
+                { id: "p_a1", nome: "1. Leg Press 45º", series: "4x (8 a 10 reps)", descanso: "90s", obs: "Carga progressiva. Desça o máximo sem tirar o quadril do banco.", guia: "Pés na largura dos ombros. Empurre pelo calcanhar e mantenha o joelho firme sem travar no topo." },
+                { id: "p_a2", nome: "2. Agachamento Hack Machine ou Smith", series: "4x 10 reps", descanso: "90s", obs: "Controle bem a descida (3 segundos descendo).", guia: "Coluna bem apoiada. Desça suavemente mantendo a tensão na coxa." },
+                { id: "p_a3", nome: "3. Cadeira Extensora", series: "4x 12 reps", descanso: "60s", obs: "Segure 2 segundos no topo em cada repetição.", guia: "Joelho alinhado ao eixo do aparelho. Esmague a coxa no topo." },
+                { id: "p_a4", nome: "4. Passada (Afundo) Caminhando", series: "3x 20 passos totais", descanso: "60s", obs: "Passos firmes e controlados.", guia: "Tronco levemente inclinado para frente, joelho da frente dobrando a 90º." },
+                { id: "p_a5", nome: "5. Gêmeos Sentada (Panturrilha)", series: "4x 15 reps", descanso: "45s", obs: "Pausa rápida no topo.", guia: "Desça o máximo o calcanhar para alongar e suba até contrair a panturrilha." }
             ]
         },
         {
             dia: "Terça-Feira • Treino B",
             foco: "🎒 Costas, Bíceps e Abdômen",
+            tempoEst: "⏱️ ~45 min",
+            caloriasEst: "🔥 ~320 kcal",
             exercicios: [
-                { id: "p_b1", nome: "1. Puxada Alta Pronada (Barra aberta)", series: "4x 10 reps", descanso: "75s", obs: "Puxe direcionando os cotovelos para baixo.", guia: "Postura: Peito estufado, puxe a barra até a altura do peito sem balançar o tronco." },
-                { id: "p_b2", nome: "2. Remada Baixa Sentada com Triângulo", series: "4x 10 reps", descanso: "75s", obs: "Esmague as escápulas atrás ao puxar.", guia: "Postura: Tronco reto, puxe em direção ao umbigo fechando as costas." },
-                { id: "p_b3", nome: "3. Puxada Articulada (ou Cavalinho)", series: "3x 12 reps", descanso: "60s", obs: "Movimento concentrado.", guia: "Postura: Mantenha o peito firme no apoio e puxe usando a força das costas." },
-                { id: "p_b4", nome: "4. Rosca Direta com Halteres (Bíceps)", series: "3x 12 reps", descanso: "60s", obs: "Controle a volta.", guia: "Postura: Cotovelos colados ao corpo, sem balançar o quadril." },
-                { id: "p_b5", nome: "5. Abdominal Infra Solo ou Paralela", series: "4x 15 reps", descanso: "45s", obs: "Foco no abdômen inferior.", guia: "Postura: Eleve o quadril levemente ao subir as pernas para ativar o abdômen sem forçar a lombar." }
+                { id: "p_b1", nome: "1. Puxada Alta Pronada (Barra aberta)", series: "4x 10 reps", descanso: "75s", obs: "Puxe direcionando os cotovelos para baixo.", guia: "Peito estufado, puxe a barra até a altura do peito sem balançar o corpo." },
+                { id: "p_b2", nome: "2. Remada Baixa Sentada com Triângulo", series: "4x 10 reps", descanso: "75s", obs: "Esmague as costas atrás ao puxar.", guia: "Tronco reto, puxe em direção ao umbigo fechando as costas." },
+                { id: "p_b3", nome: "3. Puxada Articulada (ou Cavalinho)", series: "3x 12 reps", descanso: "60s", obs: "Movimento concentrado.", guia: "Peito firme no apoio, puxe usando a força das costas." },
+                { id: "p_b4", nome: "4. Rosca Direta com Halteres (Bíceps)", series: "3x 12 reps", descanso: "60s", obs: "Controle a volta.", guia: "Cotovelos colados ao corpo, sem balançar o quadril." },
+                { id: "p_b5", nome: "5. Abdominal Infra Solo ou Paralela", series: "4x 15 reps", descanso: "45s", obs: "Foco no abdômen inferior.", guia: "Eleve o quadril levemente ao subir as pernas para ativar o abdômen." }
             ]
         },
         {
             dia: "Quarta-Feira • Treino C",
             foco: "🍑 Glúteo Isolado e Posteriores",
+            tempoEst: "⏱️ ~50 min",
+            caloriasEst: "🔥 ~350 kcal",
             exercicios: [
-                { id: "p_c1", nome: "1. Elevação Pélvica (Máquina ou Barra)", series: "4x (8 a 10 reps)", descanso: "90s", obs: "Segure 1 segundo no topo contraindo o glúteo.", guia: "Postura: Queixo colado no peito, empurre o chão com os calcanhares." },
-                { id: "p_c2", nome: "2. Cadeira Flexora", series: "4x (10 a 12 reps)", descanso: "60s", obs: "Movimento contínuo e suave.", guia: "Postura: Mantenha o tronco bem preso ao banco para isolar a posterior de coxa." },
-                { id: "p_c3", nome: "3. Glúteo na Polia (Perna Estendida)", series: "3x 12 reps", descanso: "60s", obs: "Sem chutar usando a lombar.", guia: "Postura: Tronco inclinado, aperte o glúteo no ponto mais alto." },
-                { id: "p_c4", nome: "4. Cadeira Abdutora", series: "4x 15 reps", descanso: "45s", obs: "Incline o tronco levemente para frente.", guia: "Postura: Força na parte lateral dos glúteos, empurrando os joelhos para fora." },
-                { id: "p_c5", nome: "5. Stiff com Halteres", series: "3x 10 reps", descanso: "75s", obs: "Coluna bem reta.", guia: "Postura: Empurre o quadril para trás como se fosse fechar uma porta com o bumbum." }
+                { id: "p_c1", nome: "1. Elevação Pélvica (Máquina ou Barra)", series: "4x (8 a 10 reps)", descanso: "90s", obs: "Segure 1 segundo no topo contraindo o glúteo.", guia: "Queixo no peito, empurre o chão com os calcanhares." },
+                { id: "p_c2", nome: "2. Cadeira Flexora", series: "4x (10 a 12 reps)", descanso: "60s", obs: "Movimento contínuo e suave.", guia: "Tronco bem preso ao banco para isolar a parte de trás da coxa." },
+                { id: "p_c3", nome: "3. Glúteo na Polia (Perna Estendida)", series: "3x 12 reps", descanso: "60s", obs: "Sem chutar usando a lombar.", guia: "Tronco inclinado, aperte o glúteo no ponto mais alto." },
+                { id: "p_c4", nome: "4. Cadeira Abdutora", series: "4x 15 reps", descanso: "45s", obs: "Incline o tronco levemente para frente.", guia: "Força na parte lateral dos glúteos, empurrando os joelhos para fora." },
+                { id: "p_c5", nome: "5. Stiff com Halteres", series: "3x 10 reps", descanso: "75s", obs: "Coluna bem reta.", guia: "Empurre o quadril para trás mantendo as costas bem alinhadas." }
             ]
         },
         {
             dia: "Quinta-Feira • Treino D",
             foco: "⏳ Ombros, Tríceps e Abdômen",
+            tempoEst: "⏱️ ~45 min",
+            caloriasEst: "🔥 ~300 kcal",
             exercicios: [
-                { id: "p_d1", nome: "1. Desenvolvimento com Halteres (Sentada)", series: "4x 10 reps", descanso: "75s", obs: "Empurre na vertical.", guia: "Postura: Encosto firme, desça os halteres até a linha dos ouvidos e empurre." },
-                { id: "p_d2", nome: "2. Elevação Lateral com Halteres", series: "4x (12 a 15 reps)", descanso: "60s", obs: "Suba até a linha do ombro.", guia: "Postura: Leve flexão nos cotovelos, eleve os braços pelas laterais como se estivesse despejando água de um copo." },
-                { id: "p_d3", nome: "3. Tríceps na Polia (Corda)", series: "4x 12 reps", descanso: "60s", obs: "Abra a corda no final.", guia: "Postura: Cotovelos fixos ao lado das costelas, estenda o braço totalmente para baixo." },
-                { id: "p_d4", nome: "4. Abdominal Supra com Carga (Anilha)", series: "4x 15 reps", descanso: "45s", obs: "Foco no topo do abdômen.", guia: "Postura: Anilha sobre o peito, solte o ar ao subir e contraia o abdômen." }
+                { id: "p_d1", nome: "1. Desenvolvimento com Halteres (Sentada)", series: "4x 10 reps", descanso: "75s", obs: "Empurre na vertical.", guia: "Encosto firme, desça os halteres até a linha dos ouvidos e empurre." },
+                { id: "p_d2", nome: "2. Elevação Lateral com Halteres", series: "4x (12 a 15 reps)", descanso: "60s", obs: "Suba até a linha do ombro.", guia: "Cotovelos levemente dobrados, suba os braços até a linha dos ombros." },
+                { id: "p_d3", nome: "3. Tríceps na Polia (Corda)", series: "4x 12 reps", descanso: "60s", obs: "Abra a corda no final.", guia: "Cotovelos fixos ao lado do corpo, estenda o braço totalmente para baixo." },
+                { id: "p_d4", nome: "4. Abdominal Supra com Carga (Anilha)", series: "4x 15 reps", descanso: "45s", obs: "Foco no topo do abdômen.", guia: "Anilha sobre o peito, solte o ar ao subir e aperte o abdômen." }
             ]
         },
         {
             dia: "Sexta-Feira • Treino E",
             foco: "🏃‍♀️ Cardio Metabólico + Estímulo de Glúteo",
+            tempoEst: "⏱️ ~60 min",
+            caloriasEst: "🔥 ~450 kcal",
             exercicios: [
-                { id: "p_e1", nome: "1. Esteira com Inclinação", series: "40 minutos", descanso: "Contínuo", obs: "Caminhada rápida sem correr para proteger articulações.", guia: "Dica: Mantenha o ritmo acelerado e postura ereta." },
-                { id: "p_e2", nome: "2. Cadeira Abdutora", series: "4x 20 reps", descanso: "45s", obs: "Foco na queima muscular.", guia: "Postura: Mantenha cadência constante." },
-                { id: "p_e3", nome: "3. Elevação Pélvica no Solo", series: "3x 20 reps", descanso: "45s", obs: "Peso do corpo, contraia o glúteo no topo.", guia: "Postura: Suba rápido e desça devagar." },
-                { id: "p_e4", nome: "4. Búlgaro", series: "4x 12 reps cada perna", descanso: "60s", obs: "Foco na coxa e glúteo.", guia: "Postura: Pé de trás num banco baixo, tronco ereto ao descer." },
-                { id: "p_e5", nome: "5. Abdominal Prancha Isométrica", series: "3x Máximo de tempo", descanso: "60s", obs: "Corpo reto como uma tábua.", guia: "Postura: Cotovelos apoiados no chão sob os ombros, abdômen e glúteos travados." }
+                { id: "p_e1", nome: "1. Esteira com Inclinação", series: "40 minutos", descanso: "Contínuo", obs: "Caminhada rápida sem correr para proteger articulações.", guia: "Mantenha o ritmo acelerado e postura ereta." },
+                { id: "p_e2", nome: "2. Cadeira Abdutora", series: "4x 20 reps", descanso: "45s", obs: "Foco na queima muscular.", guia: "Mantenha velocidade constante na execução." },
+                { id: "p_e3", nome: "3. Elevação Pélvica no Solo", series: "3x 20 reps", descanso: "45s", obs: "Suba e contraia o glúteo no topo.", guia: "Suba rápido e desça em 2 segundos." },
+                { id: "p_e4", nome: "4. Búlgaro", series: "4x 12 reps cada perna", descanso: "60s", obs: "Foco na coxa e glúteo.", guia: "Pé de trás no banco, tronco levemente inclinado ao descer." },
+                { id: "p_e5", nome: "5. Abdominal Prancha Isométrica", series: "3x Máximo de tempo", descanso: "60s", obs: "Corpo reto.", guia: "Cotovelos no chão, barriga e bumbum bem travados." }
             ]
         }
     ];
@@ -64,69 +73,86 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             dia: "Segunda-Feira • Treino A",
             foco: "🦵 Quadríceps e Panturrilhas (Hipertrofia)",
+            tempoEst: "⏱️ ~55 min",
+            caloriasEst: "🔥 ~350 kcal",
             exercicios: [
-                { id: "g_a1", nome: "1. Agachamento Livre", series: "4x (8 a 10 reps)", descanso: "90s", obs: "Desça de forma controlada e mantenha o abdômen firme.", guia: "Postura: Pés um pouco além da largura dos ombros, barra bem apoiada no trapézio. Desça abrindo os joelhos." },
-                { id: "g_a2", nome: "2. Leg Press Horizontal", series: "4x (10 a 12 reps)", descanso: "90s", obs: "Não estenda completamente os joelhos no final.", guia: "Postura: Empurre com os calcanhares mantendo a tensão constante na coxa." },
-                { id: "g_a3", nome: "3. Cadeira Extensora Unilateral", series: "3x 12 reps cada perna", descanso: "60s", obs: "Controle a volta do movimento.", guia: "Postura: Faça o movimento de forma limpa, sem usar o balanço do corpo." },
-                { id: "g_a4", nome: "4. Step-up no Banco", series: "3x 10 reps cada perna", descanso: "60s", obs: "Suba impulsionando principalmente pela perna da frente.", guia: "Postura: Suba com calma e controle a descida sem despencar o pé." },
-                { id: "g_a5", nome: "5. Panturrilha em Pé na Máquina", series: "4x (12 a 15 reps)", descanso: "45s", obs: "Boa amplitude, desça bem o calcanhar.", guia: "Postura: Segure 1 segundo no ponto mais alto da subida." }
+                { id: "g_a1", nome: "1. Agachamento Livre", series: "4x (8 a 10 reps)", descanso: "90s", obs: "Desça de forma controlada.", guia: "Pés na largura dos ombros, barra no trapézio. Desça abrindo os joelhos." },
+                { id: "g_a2", nome: "2. Leg Press Horizontal", series: "4x (10 a 12 reps)", descanso: "90s", obs: "Não trave os joelhos no final.", guia: "Empurre com o calcanhar mantendo a coxa sob tensão." },
+                { id: "g_a3", nome: "3. Cadeira Extensora Unilateral", series: "3x 12 reps cada perna", descanso: "60s", obs: "Controle a volta.", guia: "Movimento limpo sem balançar o corpo." },
+                { id: "g_a4", nome: "4. Step-up no Banco", series: "3x 10 reps cada perna", descanso: "60s", obs: "Suba pela perna da frente.", guia: "Suba com calma e controle a descida sem despencar." },
+                { id: "g_a5", nome: "5. Panturrilha em Pé na Máquina", series: "4x (12 a 15 reps)", descanso: "45s", obs: "Boa amplitude.", guia: "Segure 1 segundo no topo antes de descer." }
             ]
         },
         {
             dia: "Terça-Feira • Treino B",
             foco: "💪 Costas, Bíceps e Abdômen (Hipertrofia)",
+            tempoEst: "⏱️ ~50 min",
+            caloriasEst: "🔥 ~310 kcal",
             exercicios: [
-                { id: "g_b1", nome: "1. Puxada Alta com Pegada Neutra", series: "4x (8 a 10 reps)", descanso: "75s", obs: "Evite balançar o corpo durante a puxada.", guia: "Postura: Puxe as manoplas até a parte superior do peito abrindo a caixa torácica." },
-                { id: "g_b2", nome: "2. Remada Unilateral com Halter", series: "4x 10 reps cada lado", descanso: "75s", obs: "Puxe o cotovelo em direção ao quadril.", guia: "Postura: Joelho e mão opostos no banco, mantendo as costas paralelas ao chão." },
-                { id: "g_b3", nome: "3. Remada Máquina com Pegada Aberta", series: "3x 12 reps", descanso: "60s", obs: "Foco nas escápulas.", guia: "Postura: Abra os cotovelos para atingir o meio das costas." },
-                { id: "g_b4", nome: "4. Rosca Scott na Máquina", series: "3x (10 a 12 reps)", descanso: "60s", obs: "Isolamento total do bíceps.", guia: "Postura: Braços bem apoiados, sem tirar a axila do acolchoado." },
-                { id: "g_b5", nome: "5. Abdominal na Máquina", series: "4x (12 a 15 reps)", descanso: "45s", obs: "Carga progressiva.", guia: "Postura: Enrole o tronco aproximando as costelas do quadril." }
+                { id: "g_b1", nome: "1. Puxada Alta com Pegada Neutra", series: "4x (8 a 10 reps)", descanso: "75s", obs: "Sem balançar o corpo.", guia: "Puxe até o peito abrindo a caixa torácica." },
+                { id: "g_b2", nome: "2. Remada Unilateral com Halter", series: "4x 10 reps cada lado", descanso: "75s", obs: "Puxe o cotovelo para o quadril.", guia: "Costas retas, puxe o peso em direção à cintura." },
+                { id: "g_b3", nome: "3. Remada Máquina com Pegada Aberta", series: "3x 12 reps", descanso: "60s", obs: "Foco nas costas.", guia: "Abra os cotovelos para ativar o meio das costas." },
+                { id: "g_b4", nome: "4. Rosca Scott na Máquina", series: "3x (10 a 12 reps)", descanso: "60s", obs: "Isolamento do bíceps.", guia: "Braços bem apoiados, desça sem soltar o peso de vez." },
+                { id: "g_b5", nome: "5. Abdominal na Máquina", series: "4x (12 a 15 reps)", descanso: "45s", obs: "Carga moderada.", guia: "Puxe usando a força do abdômen, não dos braços." }
             ]
         },
         {
             dia: "Quarta-Feira • Treino C",
             foco: "🍑 Glúteos e Posteriores (Hipertrofia)",
+            tempoEst: "⏱️ ~50 min",
+            caloriasEst: "🔥 ~340 kcal",
             exercicios: [
-                { id: "g_c1", nome: "1. Agachamento Sumô com Halter", series: "4x 10 reps", descanso: "90s", obs: "Pés apontados para fora.", guia: "Postura: Joelhos seguindo a ponta dos pés, tronco o mais ereto possível." },
-                { id: "g_c2", nome: "2. Mesa Flexora", series: "4x (10 a 12 reps)", descanso: "60s", obs: "Controle principalmente a descida.", guia: "Postura: Quadril colado no banco, dobre os joelhos puxando os calcanhares em direção ao bumbum." },
-                { id: "g_c3", nome: "3. Extensão de Quadril na Máquina", series: "3x 12 reps cada perna", descanso: "60s", obs: "Contraia o glúteo no final.", guia: "Postura: Movimento focado no quadril, mantendo a lombar neutra." },
-                { id: "g_c4", nome: "4. Pull-through na Polia", series: "3x 12 reps", descanso: "75s", obs: "Empurre o quadril para frente.", guia: "Postura: Corda entre as pernas, tronco inclina mantendo as costas retas." },
-                { id: "g_c5", nome: "5. Cadeira Abdutora", series: "4x (15 a 20 reps)", descanso: "45s", obs: "Movimento lento sem deixar o peso bater.", guia: "Postura: Mantenha a pressão externa constante nos joelhos." }
+                { id: "g_c1", nome: "1. Agachamento Sumô com Halter", series: "4x 10 reps", descanso: "90s", obs: "Pés apontados para fora.", guia: "Joelhos acompanham as pontas dos pés." },
+                { id: "g_c2", nome: "2. Mesa Flexora", series: "4x (10 a 12 reps)", descanso: "60s", obs: "Controle a descida.", guia: "Quadril preso ao banco, dobre os joelhos com força." },
+                { id: "g_c3", nome: "3. Extensão de Quadril na Máquina", series: "3x 12 reps cada perna", descanso: "60s", obs: "Contraia o glúteo.", guia: "Movimento limpo sem forçar a lombar." },
+                { id: "g_c4", nome: "4. Pull-through na Polia", series: "3x 12 reps", descanso: "75s", obs: "Empurre o quadril.", guia: "Tronco inclina mantendo as costas bem retas." },
+                { id: "g_c5", nome: "5. Cadeira Abdutora", series: "4x (15 a 20 reps)", descanso: "45s", obs: "Movimento controlado.", guia: "Pressão constante para fora." }
             ]
         },
         {
             dia: "Quinta-Feira • Treino D",
             foco: "⏳ Ombros, Peito e Tríceps",
+            tempoEst: "⏱️ ~50 min",
+            caloriasEst: "🔥 ~320 kcal",
             exercicios: [
-                { id: "g_d1", nome: "1. Supino Inclinado com Halteres", series: "4x (8 a 10 reps)", descanso: "90s", obs: "Foco na parte superior do peito.", guia: "Postura: Banco a 30º-45º, escápulas fechadas atrás." },
-                { id: "g_d2", nome: "2. Crucifixo na Máquina", series: "3x 12 reps", descanso: "60s", obs: "Controle a abertura.", guia: "Postura: Cotovelos levemente dobrados, abra sentindo alongar o peitoral." },
-                { id: "g_d3", nome: "3. Desenvolvimento na Máquina", series: "3x 10 reps", descanso: "75s", obs: "Empurre até o topo.", guia: "Postura: Cotovelos levemente à frente do corpo durante a descida." },
-                { id: "g_d4", nome: "4. Elevação Lateral na Máquina", series: "4x (12 a 15 reps)", descanso: "60s", obs: "Tensão constante nos ombros.", guia: "Postura: Eleve os braços até a altura dos ombros sem dar impulsos." },
-                { id: "g_d5", nome: "5. Tríceps Francês com Halter", series: "3x (10 a 12 reps)", descanso: "60s", obs: "Flexão total do cotovelo.", guia: "Postura: Cotovelos apontando para o teto, desça o halter atrás da cabeça." },
-                { id: "g_d6", nome: "6. Abdominal na Polia", series: "3x 15 reps", descanso: "45s", obs: "Carga moderada.", guia: "Postura: Ajoelhado, puxe a corda curvando o tronco em direção às coxas." }
+                { id: "g_d1", nome: "1. Supino Inclinado com Halteres", series: "4x (8 a 10 reps)", descanso: "90s", obs: "Foco no peito superior.", guia: "Banco a 30º, desça até a linha do peito." },
+                { id: "g_d2", nome: "2. Crucifixo na Máquina", series: "3x 12 reps", descanso: "60s", obs: "Controle a abertura.", guia: "Abra sentindo alongar o peitoral e feche apertando." },
+                { id: "g_d3", nome: "3. Desenvolvimento na Máquina", series: "3x 10 reps", descanso: "75s", obs: "Empurre até o topo.", guia: "Cotovelos levemente à frente do corpo." },
+                { id: "g_d4", nome: "4. Elevação Lateral na Máquina", series: "4x (12 a 15 reps)", descanso: "60s", obs: "Tensão constante.", guia: "Suba até a altura dos ombros." },
+                { id: "g_d5", nome: "5. Tríceps Francês com Halter", series: "3x (10 a 12 reps)", descanso: "60s", obs: "Flexão do cotovelo.", guia: "Cotovelos apontando para cima, desça atrás da cabeça." },
+                { id: "g_d6", nome: "6. Abdominal na Polia", series: "3x 15 reps", descanso: "45s", obs: "Carga moderada.", guia: "Ajoelhado, curve o tronco em direção às coxas." }
             ]
         },
         {
             dia: "Sexta-Feira • Treino E",
-            foco: "🍑 Glúteos + Posteriores (Foco de Carga)",
+            foco: "🍑 Glúteos + Posteriores (Foco em Carga)",
+            tempoEst: "⏱️ ~55 min",
+            caloriasEst: "🔥 ~360 kcal",
             exercicios: [
-                { id: "g_e1", nome: "1. Hip Thrust na Máquina", series: "4x (8 a 10 reps)", descanso: "90s", obs: "Pausa de 1-2s no topo.", guia: "Postura: Trave o quadril lá em cima e aperte forte o glúteo antes de baixar." },
-                { id: "g_e2", nome: "2. Stiff no Smith", series: "4x (8 a 10 reps)", descanso: "90s", obs: "Empurre o quadril para trás.", guia: "Postura: Joelhos com microflexão, desça a barra rentável às coxas." },
-                { id: "g_e3", nome: "3. Afundo Reverso com Halteres", series: "3x 10 reps cada perna", descanso: "75s", obs: "Passo longo para trás.", guia: "Postura: Dê o passo para trás e apoie o joelho suavemente perto do chão." },
-                { id: "g_e4", nome: "4. Glúteo no Banco 45º", series: "3x (12 a 15 reps)", descanso: "60s", obs: "Concentre no quadril.", guia: "Postura: Curve levemente a parte alta das costas para focar nos glúteos." },
-                { id: "g_e5", nome: "5. Cadeira Abdutora", series: "4x (15 a 20 reps)", descanso: "45s", obs: "Exaustão final.", guia: "Postura: Mantenha o movimento sob controle na ida e na volta." },
-                { id: "g_e6", nome: "6. Panturrilha no Leg Press", series: "4x 15 reps", descanso: "45s", obs: "Extensão total da ponta do pé.", guia: "Postura: Apenas a ponta dos pés na plataforma, empurre afastando os calcanhares." }
+                { id: "g_e1", nome: "1. Hip Thrust na Máquina", series: "4x (8 a 10 reps)", descanso: "90s", obs: "Pausa de 1-2s no topo.", guia: "Aperte forte o glúteo no ponto mais alto." },
+                { id: "g_e2", nome: "2. Stiff no Smith", series: "4x (8 a 10 reps)", descanso: "90s", obs: "Empurre o quadril para trás.", guia: "Desça a barra rente às pernas mantendo a coluna reta." },
+                { id: "g_e3", nome: "3. Afundo Reverso com Halteres", series: "3x 10 reps cada perna", descanso: "75s", obs: "Passo longo para trás.", guia: "Controle a descida sem bater o joelho no chão." },
+                { id: "g_e4", nome: "4. Glúteo no Banco 45º", series: "3x (12 a 15 reps)", descanso: "60s", obs: "Concentre no quadril.", guia: "Suba apertando o bumbum sem forçar a lombar." },
+                { id: "g_e5", nome: "5. Cadeira Abdutora", series: "4x (15 a 20 reps)", descanso: "45s", obs: "Exaustão final.", guia: "Movimento cadenciado e sem trancos." },
+                { id: "g_e6", nome: "6. Panturrilha no Leg Press", series: "4x 15 reps", descanso: "45s", obs: "Extensão total da ponta do pé.", guia: "Empurre com a ponta dos pés na plataforma." }
             ]
         }
     ];
 
+    const dicasNutricao = [
+        { titulo: "💧 1. Hidratação Constante", desc: "Beba no mínimo 35ml de água por quilo de peso corporal ao longo do dia. Exemplo: 60kg x 35ml = ~2.1 Litros por dia." },
+        { titulo: "🥩 2. Proteínas em Todas as Refeições", desc: "Ovos, frango, carne, peixe ou whey ajudam na recuperação muscular e mantêm a saciedade por mais tempo." },
+        { titulo: "🍚 3. Carboidratos Inteligentes", desc: "Consuma arroz, batata, aveia ou mandioca antes do treino para ter energia maxima durante as séries." },
+        { titulo: "💤 4. Sono Reparador", desc: "Treino gera o estímulo, o descanso gera o resultado. Tente dormir entre 7 a 8 horas por noite." }
+    ];
+
+    // ELEMENTOS DOM
     const btnIniciar = document.getElementById('btn-iniciar');
     const formAluno = document.getElementById('form-aluno');
     const formMetas = document.getElementById('form-metas');
     const btnAcessarFicha = document.getElementById('btn-acessar-ficha');
     const btnVoltar = document.getElementById('btn-voltar');
 
-    // NAVEGAÇÃO
     if (btnIniciar) {
         btnIniciar.addEventListener('click', () => {
             document.getElementById('tela-inicio').classList.add('oculto');
@@ -142,8 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
             dadosAluno.pesoAtual = parseFloat(document.getElementById('peso').value);
             dadosAluno.objetivo = document.querySelector('input[name="objetivo"]:checked').value;
 
-            const labelMeta = document.getElementById('label-peso-desejado');
-            labelMeta.innerText = dadosAluno.objetivo === 'perda' 
+            document.getElementById('label-peso-desejado').innerText = dadosAluno.objetivo === 'perda' 
                 ? 'Peso Desejado para Emagrecer (kg):' 
                 : 'Peso Desejado para Ganhar (kg):';
 
@@ -164,66 +189,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const resumoBox = document.getElementById('resumo-calculo-texto');
             const resultadoContainer = document.getElementById('resultado-meta');
-            const nomeBtnDestaque = document.getElementById('nome-destaque-btn');
 
-            let diferencaPeso = 0;
-            let metaMensal = 0;
-            let metaSemanal = 0;
-            let avaliacaoRitmo = '';
-            let corBadge = '';
-            let mensagemResultado = '';
+            let diferencaPeso = Math.abs(dadosAluno.pesoAtual - dadosAluno.pesoMeta);
+            let metaMensal = (diferencaPeso / dadosAluno.meses).toFixed(1);
 
-            const semanasTotais = dadosAluno.meses * 4.33;
+            resumoBox.innerHTML = `
+                <div class="card-resultado-meta">
+                    <h3>🎯 Seu Planejamento Personaizado</h3>
+                    <p>Meta total: <strong>${diferencaPeso.toFixed(1)} kg</strong> em <strong>${dadosAluno.meses} mês(es)</strong></p>
+                    <p>📅 Ritmo recomendado: ~<strong>${metaMensal} kg/mês</strong></p>
+                    <span class="badge-ritmo" style="background-color: #2ea44f;">🟢 Meta Alcançável e Segura</span>
+                </div>
+            `;
 
-            if (dadosAluno.objetivo === 'perda') {
-                diferencaPeso = dadosAluno.pesoAtual - dadosAluno.pesoMeta;
-                metaMensal = (diferencaPeso / dadosAluno.meses).toFixed(1);
-                metaSemanal = (diferencaPeso / semanasTotais).toFixed(2);
-
-                if (metaSemanal <= 0.5) {
-                    avaliacaoRitmo = '🟢 Ritmo Confortável e Sustentável';
-                    corBadge = '#2ea44f';
-                } else if (metaSemanal <= 1.0) {
-                    avaliacaoRitmo = '🟡 Ritmo Moderado e Eficiente';
-                    corBadge = '#e3b341';
-                } else {
-                    avaliacaoRitmo = '🔴 Ritmo Intenso / Agressivo';
-                    corBadge = '#8b0000';
-                }
-
-                mensagemResultado = `
-                    <div class="card-resultado-meta">
-                        <h3>🎯 Planejamento de Emagrecimento</h3>
-                        <p>Eliminar: <strong>${diferencaPeso.toFixed(1)} kg</strong> em <strong>${dadosAluno.meses} mês(es)</strong></p>
-                        <p>📅 Meta Mês: <strong>${metaMensal} kg/mês</strong> | Semana: <strong>${metaSemanal} kg/sem</strong></p>
-                        <span class="badge-ritmo" style="background-color: ${corBadge};">${avaliacaoRitmo}</span>
-                    </div>
-                `;
-            } else {
-                diferencaPeso = dadosAluno.pesoMeta - dadosAluno.pesoAtual;
-                metaMensal = (diferencaPeso / dadosAluno.meses).toFixed(1);
-                metaSemanal = (diferencaPeso / semanasTotais).toFixed(2);
-
-                if (metaSemanal <= 0.3) {
-                    avaliacaoRitmo = '🟢 Ritmo Excelente (Hipertrofia Limpa)';
-                    corBadge = '#2ea44f';
-                } else {
-                    avaliacaoRitmo = '🟡 Ritmo Acelerado';
-                    corBadge = '#e3b341';
-                }
-
-                mensagemResultado = `
-                    <div class="card-resultado-meta">
-                        <h3>💪 Planejamento de Hipertrofia</h3>
-                        <p>Ganhar: <strong>${diferencaPeso.toFixed(1)} kg</strong> em <strong>${dadosAluno.meses} mês(es)</strong></p>
-                        <p>📅 Meta Mês: <strong>${metaMensal} kg/mês</strong> | Semana: <strong>${metaSemanal} kg/sem</strong></p>
-                        <span class="badge-ritmo" style="background-color: ${corBadge};">${avaliacaoRitmo}</span>
-                    </div>
-                `;
-            }
-
-            resumoBox.innerHTML = mensagemResultado;
-            nomeBtnDestaque.innerText = dadosAluno.nome.toUpperCase();
             resultadoContainer.classList.remove('oculto');
         });
     }
@@ -232,10 +210,11 @@ document.addEventListener('DOMContentLoaded', () => {
         btnAcessarFicha.addEventListener('click', () => {
             const textoObj = dadosAluno.objetivo === 'perda' ? 'Perda de Gordura' : 'Ganho de Massa';
 
-            document.getElementById('boas-vindas-user').innerText = `Ficha de Treino • ${dadosAluno.nome}`;
-            document.getElementById('detalhes-user').innerText = `${dadosAluno.idade} anos | ${dadosAluno.pesoAtual}kg ➔ ${dadosAluno.pesoMeta}kg em ${dadosAluno.meses} mês(es) | ${textoObj}`;
+            document.getElementById('boas-vindas-user').innerText = `Ficha de ${dadosAluno.nome}`;
+            document.getElementById('detalhes-user').innerText = `${dadosAluno.pesoAtual}kg ➔ Meta ${dadosAluno.pesoMeta}kg (${textoObj})`;
 
             renderizarFichas(dadosAluno.objetivo);
+            renderizarDicas();
 
             document.getElementById('tela-metas').classList.add('oculto');
             document.getElementById('tela-treinos').classList.remove('oculto');
@@ -249,7 +228,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // MONTAGEM DINÂMICA DAS FICHAS
+    // NAVEGAÇÃO DE ABAS
+    document.querySelectorAll('.aba-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            document.querySelectorAll('.aba-btn').forEach(b => b.classList.remove('ativa'));
+            document.querySelectorAll('.conteudo-aba').forEach(c => c.classList.add('oculto'));
+
+            e.target.classList.add('ativa');
+            const idAba = e.target.getAttribute('data-aba');
+            document.getElementById(idAba).classList.remove('oculto');
+        });
+    });
+
+    // MONTAGEM DAS FICHAS COM MÉTRICAS DE TEMPO E CALORIAS
     function renderizarFichas(objetivo) {
         const container = document.getElementById('fichas-container');
         container.innerHTML = '';
@@ -274,9 +265,9 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <small>${ex.obs}</small>
                             </div>
                         </div>
-                        <button class="btn-guia" onclick="toggleGuia('${ex.id}')">💡 Guia de Execução & Postura</button>
+                        <button class="btn-guia" onclick="toggleGuia('${ex.id}')">💡 Como Executar</button>
                         <div id="guia-${ex.id}" class="box-execucao oculto">
-                            <strong>Como executar:</strong> ${ex.guia}
+                            <strong>Dica de Postura:</strong> ${ex.guia}
                         </div>
                     </li>
                 `;
@@ -293,17 +284,22 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                         <span class="progresso-texto" id="porc-${index}">${porc}%</span>
                     </div>
+
+                    <div class="metricas-treino">
+                        <span>${card.tempoEst}</span>
+                        <span>${card.caloriasEst}</span>
+                    </div>
+
                     <div class="barra-progresso-bg">
                         <div class="barra-progresso-fill" id="barra-${index}" style="width: ${porc}%;"></div>
                     </div>
-                    <div class="mensagem-concluido ${porc === 100 ? '' : 'oculto'}" id="msg-${index}">🎉 Treino Concluído! Excelente trabalho!</div>
+                    <div class="mensagem-concluido ${porc === 100 ? '' : 'oculto'}" id="msg-${index}">🎉 Treino Concluído! Parabéns pela consistência!</div>
                     <ul>${htmlExercicios}</ul>
                 </div>
             `;
             container.innerHTML += cardHtml;
         });
 
-        // EVENTO CHECKBOXES E ATUALIZAÇÃO DO PROGRESSO
         document.querySelectorAll('.chk-exercicio').forEach(chk => {
             chk.addEventListener('change', (e) => {
                 const id = e.target.getAttribute('data-id');
@@ -337,10 +333,55 @@ document.addEventListener('DOMContentLoaded', () => {
             msgBox.classList.add('oculto');
         }
     }
+
+    function renderizarDicas() {
+        const box = document.getElementById('dicas-conteudo');
+        box.innerHTML = '';
+        dicasNutricao.forEach(dica => {
+            box.innerHTML += `
+                <div class="dica-card">
+                    <h4>${dica.titulo}</h4>
+                    <p>${dica.desc}</p>
+                </div>
+            `;
+        });
+    }
 });
 
-// ABRIR/FECHAR O GUIA DE EXECUÇÃO DOS EXERCÍCIOS
+// GUIA EXPANSÍVEL
 function toggleGuia(id) {
     const box = document.getElementById(`guia-${id}`);
     box.classList.toggle('oculto');
+}
+
+// CRONÔMETRO DE DESCANSO
+let tempoRestante = 0;
+let intervalTimer = null;
+
+function iniciarTimer(segundos) {
+    clearInterval(intervalTimer);
+    tempoRestante = segundos;
+    atualizarDisplayTimer();
+
+    intervalTimer = setInterval(() => {
+        tempoRestante--;
+        atualizarDisplayTimer();
+
+        if (tempoRestante <= 0) {
+            clearInterval(intervalTimer);
+            alert("⏰ Tempo de descanso finalizado! Hora da próxima série!");
+        }
+    }, 1000);
+}
+
+function resetarTimer() {
+    clearInterval(intervalTimer);
+    tempoRestante = 0;
+    atualizarDisplayTimer();
+}
+
+function atualizarDisplayTimer() {
+    const min = String(Math.floor(tempoRestante / 60)).padStart(2, '0');
+    const seg = String(tempoRestante % 60).padStart(2, '0');
+    document.getElementById('timer-display').innerText = `${min}:${seg}`;
 }

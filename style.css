@@ -38,14 +38,14 @@ body {
 }
 
 .frase-impacto {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: #dddddd;
     margin-bottom: 30px;
     line-height: 1.4;
 }
 
 h2 {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     color: #ffffff;
     margin-bottom: 8px;
 }
@@ -53,7 +53,7 @@ h2 {
 .subtitulo {
     color: #888888;
     font-size: 0.9rem;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .input-group {
@@ -156,12 +156,17 @@ h2 {
 }
 
 .btn-secundario {
-    background: transparent;
+    background: #1f1f1f;
     border: 1px solid #444;
     color: #ccc;
     padding: 8px 14px;
     border-radius: 6px;
     cursor: pointer;
+}
+
+.btn-secundario:hover {
+    border-color: #ff3333;
+    color: #fff;
 }
 
 .container-treinos {
@@ -177,7 +182,33 @@ h2 {
     padding: 15px 20px;
     border-radius: 8px;
     border-left: 4px solid #8b0000;
+    margin-bottom: 15px;
+}
+
+/* NAVEGAÇÃO DE ABAS NO TOPO */
+.nav-abas {
+    display: flex;
+    gap: 8px;
     margin-bottom: 20px;
+}
+
+.aba-btn {
+    flex: 1;
+    background: #141414;
+    border: 1px solid #333;
+    color: #aaa;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.aba-btn.ativa, .aba-btn:hover {
+    background: #8b0000;
+    color: #fff;
+    border-color: #ff3333;
 }
 
 .card-treino {
@@ -191,8 +222,8 @@ h2 {
 .header-card {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
+    align-items: flex-start;
+    margin-bottom: 10px;
 }
 
 .header-card h2 {
@@ -201,8 +232,20 @@ h2 {
 }
 
 .header-card h3 {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: #aaa;
+}
+
+.metricas-treino {
+    display: flex;
+    gap: 15px;
+    background: #1a1a1a;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    color: #ff9999;
+    margin-bottom: 12px;
+    border: 1px dashed #440000;
 }
 
 .barra-progresso-bg {
@@ -261,7 +304,6 @@ li.item-exercicio {
     margin-top: 3px;
 }
 
-/* BOTÃO DE GUIA DE EXECUÇÃO */
 .btn-guia {
     background: #1f1f1f;
     border: 1px solid #333;
@@ -290,10 +332,6 @@ li.item-exercicio {
     line-height: 1.4;
 }
 
-.box-execucao strong {
-    color: #ff6666;
-}
-
 .card-resultado-meta {
     background: #1f1f1f;
     padding: 15px;
@@ -309,6 +347,41 @@ li.item-exercicio {
     font-size: 0.8rem;
     font-weight: bold;
     margin-top: 8px;
+}
+
+/* CRONÔMETRO */
+.timer-display {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: #ff3333;
+    margin: 20px 0;
+    letter-spacing: 2px;
+}
+
+.timer-botoes {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.dica-card {
+    background: #1a1a1a;
+    border-left: 3px solid #ff3333;
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 4px;
+    text-align: left;
+}
+
+.dica-card h4 {
+    color: #ff6666;
+    margin-bottom: 5px;
+}
+
+.dica-card p {
+    font-size: 0.88rem;
+    color: #ccc;
+    line-height: 1.4;
 }
 
 .divisor {
