@@ -8,10 +8,10 @@
 </head>
 <body>
 
-    <!-- TELA INICIAL (BOAS-VINDAS / CADASTRO) -->
+    <!-- ETAPA 1: CADASTRO INICIAL -->
     <div id="tela-boas-vindas" class="container-box">
         <h1>Bem-Vindo(a)!</h1>
-        <p class="subtitulo">Monte seu perfil para acessar sua ficha personalizada.</p>
+        <p class="subtitulo">Monte seu perfil inicial para começar.</p>
 
         <form id="form-aluno">
             <div class="input-group">
@@ -26,7 +26,7 @@
                 </div>
 
                 <div class="input-group">
-                    <label for="peso">Peso (kg):</label>
+                    <label for="peso">Peso Atual (kg):</label>
                     <input type="number" id="peso" step="0.1" placeholder="Ex: 65.5" required>
                 </div>
             </div>
@@ -46,11 +46,44 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn-primary">Acessar Meu Treino</button>
+            <button type="submit" class="btn-primary">Avançar para Metas ➔</button>
         </form>
     </div>
 
-    <!-- TELA DA FICHA DE TREINO -->
+    <!-- ETAPA 2: CÁLCULO DE METAS -->
+    <div id="tela-metas" class="container-box oculto">
+        <h1 id="titulo-meta-aluno">Planejamento de Metas</h1>
+        <p class="subtitulo" id="subtitulo-meta">Informe seu objetivo para calcularmos seu ritmo ideal.</p>
+
+        <form id="form-metas">
+            <div class="input-group-row">
+                <div class="input-group">
+                    <label id="label-peso-desejado" for="peso-meta">Peso Desejado (kg):</label>
+                    <input type="number" id="peso-meta" step="0.1" placeholder="Ex: 60.0" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="prazo-meses">Prazo Estimado (em Meses):</label>
+                    <input type="number" id="prazo-meses" min="1" max="24" placeholder="Ex: 3" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary">Calcular Planejamento 📊</button>
+        </form>
+
+        <!-- RESULTADO DO CÁLCULO E BOTÃO COM O NOME DO CLIENTE -->
+        <div id="resultado-meta" class="box-resultado oculto">
+            <div id="resumo-calculo-texto"></div>
+            
+            <hr class="divisor">
+
+            <button id="btn-acessar-ficha" class="btn-destaque">
+                🚀 ACESSAR FICHA DE TREINO DE <span id="nome-destaque-btn">CLIENTE</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ETAPA 3: FICHA DE TREINOS -->
     <div id="tela-treinos" class="container-treinos oculto">
         
         <header class="header-perfil">
@@ -58,18 +91,14 @@
                 <h2 id="boas-vindas-user">Ficha de Treino</h2>
                 <p id="detalhes-user"></p>
             </div>
-            <button id="btn-voltar" class="btn-secundario">Alterar Perfil</button>
+            <button id="btn-voltar" class="btn-secundario">Alterar Metas</button>
         </header>
 
-        <!-- FICHA: PERDA DE PESO (TRADICIONAL) -->
+        <!-- FICHA: PERDA DE PESO -->
         <div id="ficha-perda" class="container-ficha oculto">
-            
             <div class="card-treino">
                 <div class="header-card">
-                    <div>
-                        <h2>Segunda-Feira • Treino A</h2>
-                        <h3>Quadríceps e Panturrilhas</h3>
-                    </div>
+                    <div><h2>Segunda-Feira • Treino A</h2><h3>Quadríceps e Panturrilhas</h3></div>
                     <span class="progresso-texto">0%</span>
                 </div>
                 <div class="barra-progresso-bg"><div class="barra-progresso-fill"></div></div>
@@ -85,10 +114,7 @@
 
             <div class="card-treino">
                 <div class="header-card">
-                    <div>
-                        <h2>Terça-Feira • Treino B</h2>
-                        <h3>Costas, Bíceps e Abdômen</h3>
-                    </div>
+                    <div><h2>Terça-Feira • Treino B</h2><h3>Costas, Bíceps e Abdômen</h3></div>
                     <span class="progresso-texto">0%</span>
                 </div>
                 <div class="barra-progresso-bg"><div class="barra-progresso-fill"></div></div>
@@ -104,10 +130,7 @@
 
             <div class="card-treino">
                 <div class="header-card">
-                    <div>
-                        <h2>Quarta-Feira • Treino C</h2>
-                        <h3>Glúteo Isolado e Posteriores</h3>
-                    </div>
+                    <div><h2>Quarta-Feira • Treino C</h2><h3>Glúteo Isolado e Posteriores</h3></div>
                     <span class="progresso-texto">0%</span>
                 </div>
                 <div class="barra-progresso-bg"><div class="barra-progresso-fill"></div></div>
@@ -123,10 +146,7 @@
 
             <div class="card-treino">
                 <div class="header-card">
-                    <div>
-                        <h2>Quinta-Feira • Treino D</h2>
-                        <h3>Ombros, Tríceps e Abdômen</h3>
-                    </div>
+                    <div><h2>Quinta-Feira • Treino D</h2><h3>Ombros, Tríceps e Abdômen</h3></div>
                     <span class="progresso-texto">0%</span>
                 </div>
                 <div class="barra-progresso-bg"><div class="barra-progresso-fill"></div></div>
@@ -141,10 +161,7 @@
 
             <div class="card-treino">
                 <div class="header-card">
-                    <div>
-                        <h2>Sexta-Feira • Treino E</h2>
-                        <h3>Cardio Metabólico + Estímulo de Glúteo</h3>
-                    </div>
+                    <div><h2>Sexta-Feira • Treino E</h2><h3>Cardio Metabólico + Estímulo de Glúteo</h3></div>
                     <span class="progresso-texto">0%</span>
                 </div>
                 <div class="barra-progresso-bg"><div class="barra-progresso-fill"></div></div>
@@ -159,15 +176,11 @@
             </div>
         </div>
 
-        <!-- FICHA: GANHO DE MASSA (NOVO TREINO SOLICITADO) -->
+        <!-- FICHA: GANHO DE MASSA -->
         <div id="ficha-ganho" class="container-ficha oculto">
-
             <div class="card-treino">
                 <div class="header-card">
-                    <div>
-                        <h2>Segunda-Feira • Treino A</h2>
-                        <h3>Quadríceps e Panturrilhas</h3>
-                    </div>
+                    <div><h2>Segunda-Feira • Treino A</h2><h3>Quadríceps e Panturrilhas</h3></div>
                     <span class="progresso-texto">0%</span>
                 </div>
                 <div class="barra-progresso-bg"><div class="barra-progresso-fill"></div></div>
@@ -183,10 +196,7 @@
 
             <div class="card-treino">
                 <div class="header-card">
-                    <div>
-                        <h2>Terça-Feira • Treino B</h2>
-                        <h3>Costas, Bíceps e Abdômen</h3>
-                    </div>
+                    <div><h2>Terça-Feira • Treino B</h2><h3>Costas, Bíceps e Abdômen</h3></div>
                     <span class="progresso-texto">0%</span>
                 </div>
                 <div class="barra-progresso-bg"><div class="barra-progresso-fill"></div></div>
@@ -202,10 +212,7 @@
 
             <div class="card-treino">
                 <div class="header-card">
-                    <div>
-                        <h2>Quarta-Feira • Treino C</h2>
-                        <h3>Glúteos e Posteriores</h3>
-                    </div>
+                    <div><h2>Quarta-Feira • Treino C</h2><h3>Glúteos e Posteriores</h3></div>
                     <span class="progresso-texto">0%</span>
                 </div>
                 <div class="barra-progresso-bg"><div class="barra-progresso-fill"></div></div>
@@ -221,10 +228,7 @@
 
             <div class="card-treino">
                 <div class="header-card">
-                    <div>
-                        <h2>Quinta-Feira • Treino D</h2>
-                        <h3>Ombros, Peito e Tríceps</h3>
-                    </div>
+                    <div><h2>Quinta-Feira • Treino D</h2><h3>Ombros, Peito e Tríceps</h3></div>
                     <span class="progresso-texto">0%</span>
                 </div>
                 <div class="barra-progresso-bg"><div class="barra-progresso-fill"></div></div>
@@ -241,10 +245,7 @@
 
             <div class="card-treino">
                 <div class="header-card">
-                    <div>
-                        <h2>Sexta-Feira • Treino E</h2>
-                        <h3>Glúteos + Posteriores</h3>
-                    </div>
+                    <div><h2>Sexta-Feira • Treino E</h2><h3>Glúteos + Posteriores</h3></div>
                     <span class="progresso-texto">0%</span>
                 </div>
                 <div class="barra-progresso-bg"><div class="barra-progresso-fill"></div></div>
@@ -252,13 +253,12 @@
                 <ul>
                     <li><input type="checkbox" class="chk-exercicio"><div class="info-exercicio"><strong>1. Hip Thrust na Máquina</strong> — 4x (8 a 10 reps) | <i>90s descanso</i><small>Obs: Faça uma pausa de 1–2 segundos no topo.</small></div></li>
                     <li><input type="checkbox" class="chk-exercicio"><div class="info-exercicio"><strong>2. Stiff no Smith</strong> — 4x (8 a 10 reps) | <i>90s descanso</i><small>Obs: Empurre o quadril para trás e mantenha a coluna neutra.</small></div></li>
-                    <li><input type="checkbox" class="chk-exercicio"><div class="info-exercicio"><strong>3. Afundo Reverso com Halteres</strong> — 3x 10 reps cada perna | <i>75s descanso</i><small>Obs: Dê um passo para trás e mantenha o movimento controlled.</small></div></li>
+                    <li><input type="checkbox" class="chk-exercicio"><div class="info-exercicio"><strong>3. Afundo Reverso com Halteres</strong> — 3x 10 reps cada perna | <i>75s descanso</i><small>Obs: Dê um passo para trás e mantenha o movimento controlado.</small></div></li>
                     <li><input type="checkbox" class="chk-exercicio"><div class="info-exercicio"><strong>4. Glúteo no Banco 45º</strong> — 3x (12 a 15 reps) | <i>60s descanso</i><small>Obs: Concentre o movimento no quadril e contraia o glúteo no topo.</small></div></li>
                     <li><input type="checkbox" class="chk-exercicio"><div class="info-exercicio"><strong>5. Cadeira Abdutora</strong> — 4x (15 a 20 reps) | <i>45s descanso</i></div></li>
                     <li><input type="checkbox" class="chk-exercicio"><div class="info-exercicio"><strong>6. Panturrilha no Leg Press</strong> — 4x 15 reps | <i>45s descanso</i></div></li>
                 </ul>
             </div>
-
         </div>
 
     </div>

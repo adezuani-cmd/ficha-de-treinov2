@@ -1,293 +1,80 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Roboto, sans-serif;
+/* ESTILOS DA TELA DE METAS E CÁLCULOS */
+.box-resultado {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #333;
 }
 
-body {
-    background-color: #0d0d0d;
-    color: #e6e6e6;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px 15px;
-    min-height: 100vh;
-}
-
-/* TELA DE BOAS-VINDAS */
-.container-box {
-    background-color: #1a1a1a;
-    border-top: 5px solid #e50914;
-    border-radius: 12px;
-    width: 100%;
-    max-width: 450px;
-    padding: 30px 25px;
-    box-shadow: 0 8px 25px rgba(229, 9, 20, 0.2);
-    margin-top: 40px;
-}
-
-h1 {
-    color: #e50914;
-    font-size: 2rem;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    text-align: center;
-    margin-bottom: 5px;
-}
-
-.subtitulo {
-    color: #999;
-    font-size: 0.9rem;
-    text-align: center;
-    margin-bottom: 25px;
-}
-
-.input-group {
-    display: flex;
-    flex-direction: column;
+.card-resultado-meta {
+    background: #1e1e1e;
+    padding: 18px;
+    border-radius: 8px;
+    border-left: 4px solid #e50914;
     margin-bottom: 20px;
 }
 
-.input-group-row {
-    display: flex;
-    gap: 15px;
+.card-resultado-meta h3 {
+    margin-bottom: 12px;
+    color: #ffffff;
 }
 
-label {
-    font-size: 0.9rem;
+.card-resultado-meta p {
     color: #ccc;
+    font-size: 0.95rem;
     margin-bottom: 8px;
 }
 
-input[type="text"],
-input[type="number"] {
-    background-color: #262626;
-    border: 1px solid #333;
-    border-radius: 8px;
-    padding: 12px;
-    color: #fff;
-    font-size: 1rem;
-    outline: none;
-    transition: border 0.3s;
+.divisor-suave {
+    border: 0;
+    height: 1px;
+    background: #333;
+    margin: 12px 0;
 }
 
-input[type="text"]:focus,
-input[type="number"]:focus {
-    border-color: #e50914;
+.destaque-ritmo {
+    color: #ffffff !important;
+    font-size: 1.05rem !important;
+    font-weight: bold;
+    margin-top: 8px;
 }
 
-.objetivos-container {
-    display: flex;
-    gap: 10px;
-}
-
-.radio-card {
-    flex: 1;
-    cursor: pointer;
-}
-
-.radio-card input {
-    display: none;
-}
-
-.radio-card span {
-    display: block;
-    background-color: #262626;
-    border: 2px solid #333;
-    padding: 12px 8px;
-    border-radius: 8px;
-    text-align: center;
+.badge-ritmo {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    color: #ffffff;
     font-size: 0.85rem;
     font-weight: bold;
-    color: #aaa;
-    transition: all 0.3s;
-}
-
-.radio-card input:checked + span {
-    border-color: #e50914;
-    background-color: #2a080a;
-    color: #fff;
-}
-
-.btn-primary {
-    width: 100%;
-    background-color: #e50914;
-    color: #fff;
-    border: none;
-    padding: 14px;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background 0.3s;
     margin-top: 10px;
 }
 
-.btn-primary:hover {
-    background-color: #b80710;
+.divisor {
+    border: 0;
+    height: 1px;
+    background: #333;
+    margin: 20px 0;
 }
 
-.btn-secundario {
-    background-color: transparent;
-    border: 1px solid #e50914;
-    color: #e50914;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 0.8rem;
-    cursor: pointer;
-}
-
-.container-treinos {
+/* Botão em grande destaque no final do cálculo */
+.btn-destaque {
     width: 100%;
-    max-width: 650px;
+    background: linear-gradient(135deg, #ff0000 0%, #990000 100%);
+    color: #ffffff;
+    border: none;
+    padding: 18px 20px;
+    font-size: 1.05rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-destaque:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(229, 9, 20, 0.6);
 }
 
 .oculto {
-    display: none !important;
-}
-
-.header-perfil {
-    background-color: #1a1a1a;
-    padding: 20px;
-    border-radius: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-    border-left: 5px solid #e50914;
-}
-
-.header-perfil h2 {
-    color: #fff;
-    font-size: 1.4rem;
-}
-
-.header-perfil p {
-    color: #999;
-    font-size: 0.85rem;
-    margin-top: 4px;
-}
-
-/* CARDS E BARRA DE PROGRESSO */
-.card-treino {
-    background-color: #1a1a1a;
-    border-left: 5px solid #e50914;
-    border-radius: 10px;
-    width: 100%;
-    padding: 20px;
-    margin-bottom: 25px;
-    box-shadow: 0 4px 15px rgba(229, 9, 20, 0.15);
-}
-
-.header-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-}
-
-.card-treino h2 {
-    color: #ffffff;
-    font-size: 1.3rem;
-    text-transform: uppercase;
-}
-
-.card-treino h3 {
-    color: #b3b3b3;
-    font-size: 1rem;
-    font-weight: 400;
-}
-
-.progresso-texto {
-    color: #e50914;
-    font-weight: bold;
-    font-size: 1.1rem;
-}
-
-.barra-progresso-bg {
-    width: 100%;
-    height: 8px;
-    background-color: #262626;
-    border-radius: 10px;
-    margin: 15px 0;
-    overflow: hidden;
-}
-
-.barra-progresso-fill {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #b80710, #e50914);
-    border-radius: 10px;
-    transition: width 0.4s ease;
-}
-
-.mensagem-concluido {
-    background-color: #1a381e;
-    color: #4cd964;
-    border: 1px solid #28a745;
-    padding: 10px;
-    border-radius: 6px;
-    text-align: center;
-    font-weight: bold;
-    margin-bottom: 15px;
-    font-size: 0.9rem;
-    animation: popIn 0.3s ease;
-}
-
-@keyframes popIn {
-    0% { transform: scale(0.9); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-}
-
-ul {
-    list-style: none;
-}
-
-li {
-    display: flex;
-    align-items: flex-start;
-    gap: 15px;
-    background-color: #242424;
-    padding: 12px 15px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-}
-
-input[type="checkbox"] {
-    accent-color: #e50914;
-    width: 22px;
-    height: 22px;
-    cursor: pointer;
-    margin-top: 3px;
-}
-
-input[type="checkbox"]:checked + .info-exercicio {
-    opacity: 0.4;
-    text-decoration: line-through;
-}
-
-.info-exercicio {
-    display: flex;
-    flex-direction: column;
-    font-size: 0.95rem;
-    line-height: 1.4;
-}
-
-.info-exercicio strong {
-    color: #ffffff;
-}
-
-.info-exercicio i {
-    color: #e50914;
-    font-style: normal;
-}
-
-.info-exercicio small {
-    color: #999999;
-    margin-top: 4px;
-    font-size: 0.85rem;
-    }
-    .oculto {
     display: none !important;
 }
