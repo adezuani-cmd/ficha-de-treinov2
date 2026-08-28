@@ -1,80 +1,281 @@
-/* ESTILOS DA TELA DE METAS E CÁLCULOS */
-.box-resultado {
-    margin-top: 20px;
-    padding-top: 15px;
-    border-top: 1px solid #333;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, sans-serif;
 }
 
-.card-resultado-meta {
-    background: #1e1e1e;
-    padding: 18px;
-    border-radius: 8px;
-    border-left: 4px solid #e50914;
-    margin-bottom: 20px;
-}
-
-.card-resultado-meta h3 {
-    margin-bottom: 12px;
+body {
+    background-color: #0a0a0a;
     color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px 15px;
 }
 
-.card-resultado-meta p {
-    color: #ccc;
-    font-size: 0.95rem;
+.text-center {
+    text-align: center;
+}
+
+/* CONTAINER DAS TELAS */
+.container-box {
+    background: #141414;
+    border: 1px solid #280000;
+    border-top: 4px solid #8b0000;
+    width: 100%;
+    max-width: 480px;
+    padding: 30px 25px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(139, 0, 0, 0.2);
+}
+
+.titulo-destaque {
+    font-size: 2.2rem;
+    color: #ff3333;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+.frase-impacto {
+    font-size: 1.2rem;
+    color: #dddddd;
+    margin-bottom: 30px;
+    line-height: 1.4;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: #ffffff;
     margin-bottom: 8px;
 }
 
-.divisor-suave {
-    border: 0;
-    height: 1px;
-    background: #333;
-    margin: 12px 0;
+.subtitulo {
+    color: #888888;
+    font-size: 0.9rem;
+    margin-bottom: 25px;
 }
 
-.destaque-ritmo {
-    color: #ffffff !important;
-    font-size: 1.05rem !important;
+/* INPUTS E FORMULÁRIO */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+    text-align: left;
+}
+
+.input-group label {
+    font-size: 0.9rem;
+    color: #cccccc;
+    margin-bottom: 6px;
+}
+
+.input-group input {
+    background: #1f1f1f;
+    border: 1px solid #333333;
+    color: #ffffff;
+    padding: 12px 15px;
+    border-radius: 6px;
+    font-size: 1rem;
+    outline: none;
+}
+
+.input-group input:focus {
+    border-color: #8b0000;
+}
+
+.input-group-row {
+    display: flex;
+    gap: 15px;
+}
+
+.input-group-row .input-group {
+    flex: 1;
+}
+
+/* RADIOS SELEÇÃO */
+.objetivos-container {
+    display: flex;
+    gap: 10px;
+}
+
+.radio-card {
+    flex: 1;
+    background: #1f1f1f;
+    border: 1px solid #333;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.radio-card input {
+    display: none;
+}
+
+.radio-card input:checked + span {
+    color: #ff3333;
     font-weight: bold;
-    margin-top: 8px;
+}
+
+/* BOTÕES */
+.btn-primary {
+    width: 100%;
+    background: #8b0000;
+    color: #ffffff;
+    border: none;
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-primary:hover {
+    background: #b30000;
+}
+
+.btn-lg {
+    padding: 16px;
+    font-size: 1.1rem;
+}
+
+.btn-destaque {
+    width: 100%;
+    background: linear-gradient(135deg, #b30000 0%, #660000 100%);
+    color: #ffffff;
+    border: none;
+    padding: 18px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(139, 0, 0, 0.4);
+}
+
+.btn-destaque:hover {
+    background: linear-gradient(135deg, #cc0000 0%, #800000 100%);
+}
+
+.btn-secundario {
+    background: transparent;
+    border: 1px solid #444;
+    color: #ccc;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* RESULTADOS E TREINOS */
+.container-treinos {
+    width: 100%;
+    max-width: 600px;
+}
+
+.header-perfil {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #141414;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border-left: 4px solid #8b0000;
+    margin-bottom: 20px;
+}
+
+.card-treino {
+    background: #141414;
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 20px;
+    border: 1px solid #222;
+}
+
+.header-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.header-card h2 {
+    font-size: 1.1rem;
+    color: #ff3333;
+}
+
+.header-card h3 {
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.barra-progresso-bg {
+    background: #222;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.barra-progresso-fill {
+    background: #8b0000;
+    height: 100%;
+    width: 0%;
+    transition: width 0.3s;
+}
+
+ul {
+    list-style: none;
+}
+
+li {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid #222;
+}
+
+.info-exercicio strong {
+    color: #fff;
+}
+
+.info-exercicio i {
+    color: #ff3333;
+}
+
+.info-exercicio small {
+    display: block;
+    color: #777;
+    margin-top: 3px;
+}
+
+.card-resultado-meta {
+    background: #1f1f1f;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #8b0000;
+    margin-bottom: 15px;
 }
 
 .badge-ritmo {
     display: inline-block;
-    padding: 6px 12px;
-    border-radius: 20px;
-    color: #ffffff;
-    font-size: 0.85rem;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
     font-weight: bold;
-    margin-top: 10px;
+    margin-top: 8px;
 }
 
 .divisor {
     border: 0;
     height: 1px;
-    background: #333;
-    margin: 20px 0;
+    background: #2a2a2a;
+    margin: 15px 0;
 }
 
-/* Botão em grande destaque no final do cálculo */
-.btn-destaque {
-    width: 100%;
-    background: linear-gradient(135deg, #ff0000 0%, #990000 100%);
-    color: #ffffff;
-    border: none;
-    padding: 18px 20px;
-    font-size: 1.05rem;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4);
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.btn-destaque:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(229, 9, 20, 0.6);
-}
-
+/* ESCONDER ELEMENTOS */
 .oculto {
     display: none !important;
 }
