@@ -2,10 +2,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Leitura segura do localStorage
     let dadosAluno = {};
     let progressoExer = {};
+    let registrosCarga = {};
 
     try {
         dadosAluno = JSON.parse(localStorage.getItem('dadosAluno')) || {};
         progressoExer = JSON.parse(localStorage.getItem('progressoExer')) || {};
+        registrosCarga = JSON.parse(localStorage.getItem('registrosCarga')) || {};
     } catch (e) {
         console.error('Erro ao ler dados do localStorage:', e);
     }
@@ -276,6 +278,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // AUXILIAR: Extrai segundos do texto (ex: "90s" -> 90)
+    function extrairSegundos(textoDescanso) {
+        const apenasNumeros = textoDescanso.replace(/\D/g, '');
+        return parseInt(apenasNumeros, 10) || 60;
+    }
+
     // MONTAGEM DAS FICHAS
     function renderizarFichas(objetivo) {
         const container = document.getElementById('fichas-container');
@@ -293,6 +301,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const checado = progressoExer[ex.id] ? 'checked' : '';
                 if (progressoExer[ex.id]) concluidos++;
 
+                const segDescanso = extrairSegundos(ex.descanso);
+                const cargaSalva = registrosCarga[ex.id]?.carga || '';
+                const repsSalvas = registrosCarga[ex.id]?.reps || '';
+
                 htmlExercicios += `
                     <li class="item-exercicio">
                         <div class="exercicio-linha">
@@ -302,7 +314,23 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <small>${ex.obs}</small>
                             </div>
                         </div>
-                        <button class="btn-guia" data-id="${ex.id}">💡 Como Executar</button>
+
+                        <div class="registro-carga-container">
+                            <label>
+                                <span>Carga (kg):</span>
+                                <input type="number" class="input-carga" data-id="${ex.id}" value="${cargaSalva}" placeholder="0">
+                            </label>
+                            <label>
+                                <span>Reps:</span>
+                                <input type="number" class="input-reps" data-id="${ex.id}" value="${repsSalvas}" placeholder="0">
+                            </label>
+                        </div>
+
+                        <div class="acoes-exercicio">
+                            <button class="btn-timer-ex" data-segundos="${segDescanso}">⏱️ Descansar ${ex.descanso}</button>
+                            <button class="btn-guia" data-id="${ex.id}">💡 Como Executar</button>
+                        </div>
+
                         <div id="guia-${ex.id}" class="box-execucao oculto">
                             <strong>Dica de Postura:</strong> ${ex.guia}
                         </div>
@@ -347,6 +375,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('progressoExer', JSON.stringify(progressoExer));
 
                 atualizarProgressoCard(cardIdx, listaTreinos[cardIdx]);
+            });
+        });
+
+        // Event listener para salvar Cargas e Repetições
+        document.querySelectorAll('.input-carga, .input-reps').forEach(input => {
+            input.addEventListener('change', (e) => {
+                const id = e.target.getAttribute('data-id');
+                const valor = e.target.value;
+                const tipo = e.target.classList.contains('input-carga') ? 'carga' : 'reps';
+
+                if (!registrosCarga[id]) registrosCarga[id] = {};
+                registrosCarga[id][tipo] = valor;
+
+                localStorage.setItem('registrosCarga', JSON.stringify(registrosCarga));
+            });
+        });
+
+        // Event listener para acionar o cronômetro
+        document.querySelectorAll('.btn-timer-ex').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const segundos = parseInt(e.target.getAttribute('data-segundos'), 10);
+                iniciarTimer(segundos);
+
+                const displayTimer = document.getElementById('timer-display');
+                if (displayTimer) {
+                    displayTimer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
             });
         });
 
@@ -413,9 +468,29 @@ function toggleGuia(id) {
     }
 }
 
-// CRONÔMETRO DE DESCANSO
+// CRONÔMETRO DE DESCANSO COM BEEP SONORO
 let tempoRestante = 0;
 let intervalTimer = null;
+
+function tocarSinalSonoro() {
+    try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, audioCtx.currentTime); // Tom A5 (880Hz)
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.5);
+    } catch (e) {
+        console.warn('Sinal sonoro bloqueado ou não suportado.');
+    }
+}
 
 function iniciarTimer(segundos) {
     clearInterval(intervalTimer);
@@ -428,7 +503,7 @@ function iniciarTimer(segundos) {
 
         if (tempoRestante <= 0) {
             clearInterval(intervalTimer);
-            alert("⏰ Tempo de descanso finalizado! Hora da próxima série!");
+            tocarSinalSonoro();
         }
     }, 1000);
 }
