@@ -2,12 +2,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Leitura segura do localStorage
     let dadosAluno = {};
     let progressoExer = {};
-    let registrosCarga = {};
 
     try {
         dadosAluno = JSON.parse(localStorage.getItem('dadosAluno')) || {};
         progressoExer = JSON.parse(localStorage.getItem('progressoExer')) || {};
-        registrosCarga = JSON.parse(localStorage.getItem('registrosCarga')) || {};
     } catch (e) {
         console.error('Erro ao ler dados do localStorage:', e);
     }
@@ -116,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 { id: "g_c2", nome: "2. Mesa Flexora", series: "4x (10 a 12 reps)", descanso: "60s", obs: "Controle a descida.", guia: "Quadril preso ao banco, dobre os joelhos com força." },
                 { id: "g_c3", nome: "3. Extensão de Quadril na Máquina", series: "3x 12 reps cada perna", descanso: "60s", obs: "Contraia o glúteo.", guia: "Movimento limpo sem forçar a lombar." },
                 { id: "g_c4", nome: "4. Pull-through na Polia", series: "3x 12 reps", descanso: "75s", obs: "Empurre o quadril.", guia: "Tronco inclina mantendo as costas bem retas." },
-                { id: "g_c5", nome: "5. Cadeira Abdutora", series: "4x (15 a 20 reps)", descanso: "45s", obs: "Movimento controlado.", guia: "Pressão constante para fora." }
+                { id: "g_c5", nome: "5. Cadeira Abdutora", series: "4x (15 a 20 reps)", descanso: "45s", obs: "Movimento controlled.", guia: "Pressão constante para fora." }
             ]
         },
         {
@@ -163,6 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnAcessarFicha = document.getElementById('btn-acessar-ficha');
     const btnVoltar = document.getElementById('btn-voltar');
 
+    // NAVEGAÇÃO ENTRE TELAS
     if (btnIniciar) {
         btnIniciar.addEventListener('click', () => {
             document.getElementById('tela-inicio')?.classList.add('oculto');
@@ -249,7 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (boasVindas) boasVindas.innerText = `Ficha de ${dadosAluno.nome || 'Aluno'}`;
         if (detalhes) detalhes.innerText = `${dadosAluno.pesoAtual || 0}kg ➔ Meta ${dadosAluno.pesoMeta || 0}kg (${textoObj})`;
 
-        renderizarFichas(dadosAluno.objetivo);
+        renderizarFichas(dadosAluno.objetivo || 'ganho');
         renderizarDicas();
 
         document.getElementById('tela-metas')?.classList.add('oculto');
@@ -261,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnVoltar) {
         btnVoltar.addEventListener('click', () => {
             document.getElementById('tela-treinos')?.classList.add('oculto');
-            document.getElementById('tela-perfil')?.classList.remove('oculto');
+            document.getElementById('tela-inicio')?.classList.remove('oculto');
         });
     }
 
@@ -278,13 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // AUXILIAR: Extrai segundos do texto (ex: "90s" -> 90)
-    function extrairSegundos(textoDescanso) {
-        const apenasNumeros = textoDescanso.replace(/\D/g, '');
-        return parseInt(apenasNumeros, 10) || 60;
-    }
-
-    // MONTAGEM DAS FICHAS
+    // RENDERIZAÇÃO DAS FICHAS LIMPAS
     function renderizarFichas(objetivo) {
         const container = document.getElementById('fichas-container');
         if (!container) return;
@@ -301,35 +294,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 const checado = progressoExer[ex.id] ? 'checked' : '';
                 if (progressoExer[ex.id]) concluidos++;
 
-                const segDescanso = extrairSegundos(ex.descanso);
-                const cargaSalva = registrosCarga[ex.id]?.carga || '';
-                const repsSalvas = registrosCarga[ex.id]?.reps || '';
-
                 htmlExercicios += `
                     <li class="item-exercicio">
                         <div class="exercicio-linha">
                             <input type="checkbox" class="chk-exercicio" data-id="${ex.id}" data-card="${index}" ${checado}>
                             <div class="info-exercicio">
-                                <strong>${ex.nome}</strong> — ${ex.series} | <i>${ex.descanso} descanso</i>
-                                <small>${ex.obs}</small>
+                                <strong>${ex.nome}</strong> — ${ex.series} | <i style="color: #ff4d4d;">${ex.descanso} descanso</i>
+                                <small style="display: block; color: #aaa;">${ex.obs}</small>
                             </div>
                         </div>
 
-                        <div class="registro-carga-container">
-                            <label>
-                                <span>Carga (kg):</span>
-                                <input type="number" class="input-carga" data-id="${ex.id}" value="${cargaSalva}" placeholder="0">
-                            </label>
-                            <label>
-                                <span>Reps:</span>
-                                <input type="number" class="input-reps" data-id="${ex.id}" value="${repsSalvas}" placeholder="0">
-                            </label>
-                        </div>
-
-                        <div class="acoes-exercicio">
-                            <button class="btn-timer-ex" data-segundos="${segDescanso}">⏱️ Descansar ${ex.descanso}</button>
-                            <button class="btn-guia" data-id="${ex.id}">💡 Como Executar</button>
-                        </div>
+                        <button class="btn-guia" data-id="${ex.id}">💡 Como Executar</button>
 
                         <div id="guia-${ex.id}" class="box-execucao oculto">
                             <strong>Dica de Postura:</strong> ${ex.guia}
@@ -359,13 +334,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="barra-progresso-fill" id="barra-${index}" style="width: ${porc}%;"></div>
                     </div>
                     <div class="mensagem-concluido ${porc === 100 ? '' : 'oculto'}" id="msg-${index}">🎉 Treino Concluído! Parabéns pela consistência!</div>
-                    <ul>${htmlExercicios}</ul>
+                    <ul style="list-style: none; padding: 0;">${htmlExercicios}</ul>
                 </div>
             `;
             container.innerHTML += cardHtml;
         });
 
-        // Event listener para checkboxes
+        // Event listener para checkboxes de progresso
         document.querySelectorAll('.chk-exercicio').forEach(chk => {
             chk.addEventListener('change', (e) => {
                 const id = e.target.getAttribute('data-id');
@@ -375,33 +350,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('progressoExer', JSON.stringify(progressoExer));
 
                 atualizarProgressoCard(cardIdx, listaTreinos[cardIdx]);
-            });
-        });
-
-        // Event listener para salvar Cargas e Repetições
-        document.querySelectorAll('.input-carga, .input-reps').forEach(input => {
-            input.addEventListener('change', (e) => {
-                const id = e.target.getAttribute('data-id');
-                const valor = e.target.value;
-                const tipo = e.target.classList.contains('input-carga') ? 'carga' : 'reps';
-
-                if (!registrosCarga[id]) registrosCarga[id] = {};
-                registrosCarga[id][tipo] = valor;
-
-                localStorage.setItem('registrosCarga', JSON.stringify(registrosCarga));
-            });
-        });
-
-        // Event listener para acionar o cronômetro
-        document.querySelectorAll('.btn-timer-ex').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const segundos = parseInt(e.target.getAttribute('data-segundos'), 10);
-                iniciarTimer(segundos);
-
-                const displayTimer = document.getElementById('timer-display');
-                if (displayTimer) {
-                    displayTimer.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
             });
         });
 
@@ -453,11 +401,6 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         });
     }
-
-    // Carregar ficha automaticamente se os dados do aluno já existirem
-    if (dadosAluno.nome && dadosAluno.objetivo) {
-        exibirFichaTreino();
-    }
 });
 
 // GUIA EXPANSÍVEL
@@ -468,29 +411,9 @@ function toggleGuia(id) {
     }
 }
 
-// CRONÔMETRO DE DESCANSO COM BEEP SONORO
+// CRONÔMETRO GLOBAL
 let tempoRestante = 0;
 let intervalTimer = null;
-
-function tocarSinalSonoro() {
-    try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(880, audioCtx.currentTime); // Tom A5 (880Hz)
-        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.5);
-    } catch (e) {
-        console.warn('Sinal sonoro bloqueado ou não suportado.');
-    }
-}
 
 function iniciarTimer(segundos) {
     clearInterval(intervalTimer);
@@ -503,7 +426,7 @@ function iniciarTimer(segundos) {
 
         if (tempoRestante <= 0) {
             clearInterval(intervalTimer);
-            tocarSinalSonoro();
+            alert("⏰ Tempo de descanso finalizado!");
         }
     }, 1000);
 }
