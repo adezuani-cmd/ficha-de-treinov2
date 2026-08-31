@@ -19,6 +19,22 @@ body {
     text-align: center;
 }
 
+/* CLASSE DE VISIBILIDADE (Obrigatória) */
+.oculto {
+    display: none !important;
+}
+
+/* EFEITO AUTOFILL DO NAVEGADOR */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #1f1f1f inset !important;
+    -webkit-text-fill-color: #ffffff !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* CONTAINERS */
 .container-box {
     background: #141414;
     border: 1px solid #280000;
@@ -30,6 +46,12 @@ body {
     box-shadow: 0 10px 30px rgba(139, 0, 0, 0.2);
 }
 
+.container-treinos {
+    width: 100%;
+    max-width: 650px;
+}
+
+/* TIPOGRAFIA */
 .titulo-destaque {
     font-size: 2.2rem;
     color: #ff3333;
@@ -56,6 +78,7 @@ h2 {
     margin-bottom: 20px;
 }
 
+/* FORMULÁRIOS E INPUTS */
 .input-group {
     display: flex;
     flex-direction: column;
@@ -77,6 +100,7 @@ h2 {
     border-radius: 6px;
     font-size: 1rem;
     outline: none;
+    transition: border-color 0.2s;
 }
 
 .input-group input:focus {
@@ -92,6 +116,7 @@ h2 {
     flex: 1;
 }
 
+/* CARDS SELETORES (RADIO) */
 .objetivos-container {
     display: flex;
     gap: 10px;
@@ -105,6 +130,11 @@ h2 {
     border-radius: 6px;
     cursor: pointer;
     text-align: center;
+    transition: all 0.2s;
+}
+
+.radio-card:hover {
+    border-color: #555;
 }
 
 .radio-card input {
@@ -116,6 +146,7 @@ h2 {
     font-weight: bold;
 }
 
+/* BOTÕES */
 .btn-primary {
     width: 100%;
     background: #8b0000;
@@ -149,6 +180,7 @@ h2 {
     border-radius: 8px;
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(139, 0, 0, 0.4);
+    transition: background 0.2s;
 }
 
 .btn-destaque:hover {
@@ -162,6 +194,7 @@ h2 {
     padding: 8px 14px;
     border-radius: 6px;
     cursor: pointer;
+    transition: all 0.2s;
 }
 
 .btn-secundario:hover {
@@ -169,11 +202,7 @@ h2 {
     color: #fff;
 }
 
-.container-treinos {
-    width: 100%;
-    max-width: 650px;
-}
-
+/* HEADER E ABAS */
 .header-perfil {
     display: flex;
     justify-content: space-between;
@@ -185,7 +214,6 @@ h2 {
     margin-bottom: 15px;
 }
 
-/* NAVEGAÇÃO DE ABAS NO TOPO */
 .nav-abas {
     display: flex;
     gap: 8px;
@@ -211,6 +239,7 @@ h2 {
     border-color: #ff3333;
 }
 
+/* CARDS DE TREINO E FICHA */
 .card-treino {
     background: #141414;
     border-radius: 8px;
@@ -260,7 +289,7 @@ h2 {
     background: #8b0000;
     height: 100%;
     width: 0%;
-    transition: width 0.3s;
+    transition: width 0.3s ease;
 }
 
 .mensagem-concluido {
@@ -273,6 +302,7 @@ h2 {
     text-align: center;
 }
 
+/* EXERCÍCIOS */
 ul {
     list-style: none;
 }
@@ -288,6 +318,15 @@ li.item-exercicio {
     display: flex;
     gap: 12px;
     align-items: flex-start;
+}
+
+/* Checkbox Personalizado */
+.exercicio-linha input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #8b0000;
+    cursor: pointer;
+    margin-top: 3px;
 }
 
 .info-exercicio strong {
@@ -315,6 +354,7 @@ li.item-exercicio {
     margin-top: 8px;
     width: fit-content;
     align-self: flex-start;
+    transition: background 0.2s;
 }
 
 .btn-guia:hover {
@@ -362,8 +402,10 @@ li.item-exercicio {
     display: flex;
     justify-content: center;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
+/* DICAS */
 .dica-card {
     background: #1a1a1a;
     border-left: 3px solid #ff3333;
@@ -389,17 +431,4 @@ li.item-exercicio {
     height: 1px;
     background: #2a2a2a;
     margin: 15px 0;
-}
-
-.oculto {
-    display: none !important;
-    /* Remove o fundo branco/azul do autocomplete nativo no Dark Mode */
-input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 30px #1f1f1f inset !important;
-    -webkit-text-fill-color: #ffffff !important;
-    transition: background-color 5000s ease-in-out 0s;
-}
 }

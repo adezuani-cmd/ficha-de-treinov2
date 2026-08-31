@@ -1,6 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
-    let dadosAluno = JSON.parse(localStorage.getItem('dadosAluno')) || {};
-    let progressoExer = JSON.parse(localStorage.getItem('progressoExer')) || {};
+    // Leitura segura do localStorage
+    let dadosAluno = {};
+    let progressoExer = {};
+
+    try {
+        dadosAluno = JSON.parse(localStorage.getItem('dadosAluno')) || {};
+        progressoExer = JSON.parse(localStorage.getItem('progressoExer')) || {};
+    } catch (e) {
+        console.error('Erro ao ler dados do localStorage:', e);
+    }
 
     const treinosPerda = [
         {
@@ -118,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 { id: "g_d1", nome: "1. Supino Inclinado com Halteres", series: "4x (8 a 10 reps)", descanso: "90s", obs: "Foco no peito superior.", guia: "Banco a 30º, desça até a linha do peito." },
                 { id: "g_d2", nome: "2. Crucifixo na Máquina", series: "3x 12 reps", descanso: "60s", obs: "Controle a abertura.", guia: "Abra sentindo alongar o peitoral e feche apertando." },
                 { id: "g_d3", nome: "3. Desenvolvimento na Máquina", series: "3x 10 reps", descanso: "75s", obs: "Empurre até o topo.", guia: "Cotovelos levemente à frente do corpo." },
-                { id: "g_d4", nome: "4. Elevação Lateral na Máquina", series: "4x (12 a 15 reps)", descanso: "60s", obs: "Tensão constante.", guia: "Suba até a altura dos ombros." },
+                { id: "g_d4", nome: "4. Elevação Lateral na Máquina", series: "4x (12 a 15 reps)", descanso: "60s", obs: "Tensión constante.", guia: "Suba até a altura dos ombros." },
                 { id: "g_d5", nome: "5. Tríceps Francês com Halter", series: "3x (10 a 12 reps)", descanso: "60s", obs: "Flexão do cotovelo.", guia: "Cotovelos apontando para cima, desça atrás da cabeça." },
                 { id: "g_d6", nome: "6. Abdominal na Polia", series: "3x 15 reps", descanso: "45s", obs: "Carga moderada.", guia: "Ajoelhado, curve o tronco em direção às coxas." }
             ]
@@ -155,8 +163,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (btnIniciar) {
         btnIniciar.addEventListener('click', () => {
-            document.getElementById('tela-inicio').classList.add('oculto');
-            document.getElementById('tela-perfil').classList.remove('oculto');
+            document.getElementById('tela-inicio')?.classList.add('oculto');
+            document.getElementById('tela-perfil')?.classList.remove('oculto');
         });
     }
 
@@ -181,8 +189,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             localStorage.setItem('dadosAluno', JSON.stringify(dadosAluno));
 
-            document.getElementById('tela-perfil').classList.add('oculto');
-            document.getElementById('tela-metas').classList.remove('oculto');
+            document.getElementById('tela-perfil')?.classList.add('oculto');
+            document.getElementById('tela-metas')?.classList.remove('oculto');
         });
     }
 
@@ -192,7 +200,6 @@ document.addEventListener('DOMContentLoaded', () => {
             dadosAluno.pesoMeta = parseFloat(document.getElementById('peso-meta').value);
             dadosAluno.meses = parseInt(document.getElementById('prazo-meses').value, 10);
 
-            // REGRA DE NEGÓCIO: Define automaticamente se é ganho ou perda de peso
             if (dadosAluno.pesoMeta > dadosAluno.pesoAtual) {
                 dadosAluno.objetivo = 'ganho';
             } else if (dadosAluno.pesoMeta < dadosAluno.pesoAtual) {
@@ -227,26 +234,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (btnAcessarFicha) {
         btnAcessarFicha.addEventListener('click', () => {
-            const textoObj = dadosAluno.objetivo === 'perda' ? 'Perda de Gordura' : 'Ganho de Massa';
-
-            const boasVindas = document.getElementById('boas-vindas-user');
-            const detalhes = document.getElementById('detalhes-user');
-
-            if (boasVindas) boasVindas.innerText = `Ficha de ${dadosAluno.nome || 'Aluno'}`;
-            if (detalhes) detalhes.innerText = `${dadosAluno.pesoAtual || 0}kg ➔ Meta ${dadosAluno.pesoMeta || 0}kg (${textoObj})`;
-
-            renderizarFichas(dadosAluno.objetivo);
-            renderizarDicas();
-
-            document.getElementById('tela-metas').classList.add('oculto');
-            document.getElementById('tela-treinos').classList.remove('oculto');
+            exibirFichaTreino();
         });
+    }
+
+    function exibirFichaTreino() {
+        const textoObj = dadosAluno.objetivo === 'perda' ? 'Perda de Gordura' : 'Ganho de Massa';
+
+        const boasVindas = document.getElementById('boas-vindas-user');
+        const detalhes = document.getElementById('detalhes-user');
+
+        if (boasVindas) boasVindas.innerText = `Ficha de ${dadosAluno.nome || 'Aluno'}`;
+        if (detalhes) detalhes.innerText = `${dadosAluno.pesoAtual || 0}kg ➔ Meta ${dadosAluno.pesoMeta || 0}kg (${textoObj})`;
+
+        renderizarFichas(dadosAluno.objetivo);
+        renderizarDicas();
+
+        document.getElementById('tela-metas')?.classList.add('oculto');
+        document.getElementById('tela-perfil')?.classList.add('oculto');
+        document.getElementById('tela-inicio')?.classList.add('oculto');
+        document.getElementById('tela-treinos')?.classList.remove('oculto');
     }
 
     if (btnVoltar) {
         btnVoltar.addEventListener('click', () => {
-            document.getElementById('tela-treinos').classList.add('oculto');
-            document.getElementById('tela-perfil').classList.remove('oculto');
+            document.getElementById('tela-treinos')?.classList.add('oculto');
+            document.getElementById('tela-perfil')?.classList.remove('oculto');
         });
     }
 
@@ -263,7 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // MONTAGEM DAS FICHAS COM MÉTRICAS DE TEMPO E CALORIAS
+    // MONTAGEM DAS FICHAS
     function renderizarFichas(objetivo) {
         const container = document.getElementById('fichas-container');
         if (!container) return;
@@ -289,7 +302,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <small>${ex.obs}</small>
                             </div>
                         </div>
-                        <button class="btn-guia" onclick="toggleGuia('${ex.id}')">💡 Como Executar</button>
+                        <button class="btn-guia" data-id="${ex.id}">💡 Como Executar</button>
                         <div id="guia-${ex.id}" class="box-execucao oculto">
                             <strong>Dica de Postura:</strong> ${ex.guia}
                         </div>
@@ -324,6 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
             container.innerHTML += cardHtml;
         });
 
+        // Event listener para checkboxes
         document.querySelectorAll('.chk-exercicio').forEach(chk => {
             chk.addEventListener('change', (e) => {
                 const id = e.target.getAttribute('data-id');
@@ -333,6 +347,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('progressoExer', JSON.stringify(progressoExer));
 
                 atualizarProgressoCard(cardIdx, listaTreinos[cardIdx]);
+            });
+        });
+
+        // Event listener para expansão do guia de execução
+        document.querySelectorAll('.btn-guia').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = e.target.getAttribute('data-id');
+                toggleGuia(id);
             });
         });
     }
@@ -375,6 +397,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
         });
+    }
+
+    // Carregar ficha automaticamente se os dados do aluno já existirem
+    if (dadosAluno.nome && dadosAluno.objetivo) {
+        exibirFichaTreino();
     }
 });
 
