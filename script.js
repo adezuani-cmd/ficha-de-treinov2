@@ -2,7 +2,44 @@ document.addEventListener('DOMContentLoaded', () => {
     // Leitura segura do localStorage
     let dadosAluno = {};
     let progressoExer = {};
+document.addEventListener('DOMContentLoaded', () => {
+    // Leitura segura do localStorage
+    let dadosAluno = {};
+    let progressoExer = {};
 
+    // --- LÓGICA DE LOGIN ---
+    let usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado')) || null;
+    const telaLogin = document.getElementById('tela-login');
+    const formLogin = document.getElementById('form-login');
+
+    // Se o usuário já está logado e já preencheu os dados antes, vai direto para o treino
+    if (usuarioLogado && dadosAluno.nome) {
+        ocultarTodasTelas();
+        document.getElementById('tela-treinos')?.classList.remove('oculto');
+    } else if (!usuarioLogado) {
+        ocultarTodasTelas();
+        telaLogin?.classList.remove('oculto');
+    }
+
+    // Ao enviar o formulário de login
+    if (formLogin) {
+        formLogin.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email-login').value;
+
+            // Grava a sessão do usuário no navegador
+            localStorage.setItem('usuarioLogado', JSON.stringify({ email: email }));
+
+            // Se já tem cadastro anterior vai pro treino, senão vai pro fluxo de boas-vindas
+            if (dadosAluno.nome) {
+                ocultarTodasTelas();
+                document.getElementById('tela-treinos')?.classList.remove('oculto');
+            } else {
+                ocultarTodasTelas();
+                document.getElementById('tela-inicio')?.classList.remove('oculto');
+            }
+        });
+    }
     try {
         dadosAluno = JSON.parse(localStorage.getItem('dadosAluno')) || {};
         progressoExer = JSON.parse(localStorage.getItem('progressoExer')) || {};
@@ -452,4 +489,12 @@ if ('serviceWorker' in navigator) {
       .then((reg) => console.log('Service Worker registrado com sucesso:', reg.scope))
       .catch((err) => console.error('Falha ao registrar Service Worker:', err));
   });
+}
+// FUNÇÃO PARA ESCONDER TODAS AS TELAS
+function ocultarTodasTelas() {
+    document.getElementById('tela-login')?.classList.add('oculto');
+    document.getElementById('tela-inicio')?.classList.add('oculto');
+    document.getElementById('tela-perfil')?.classList.add('oculto');
+    document.getElementById('tela-metas')?.classList.add('oculto');
+    document.getElementById('tela-treinos')?.classList.add('oculto');
 }

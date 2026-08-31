@@ -492,3 +492,41 @@ li.item-exercicio {
 .btn-timer-ex:hover {
     background-color: #d0ebff;
 }
+/* ESTILO DA TELA DE LOGIN */
+#tela-login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 20px;
+}
+
+#tela-login form {
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.campo-input {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 6px;
+}
+
+.campo-input label {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.campo-input input {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    background-color: #1a1a1a;
+    color: #fff;
+    font-size: 15px;
+}
