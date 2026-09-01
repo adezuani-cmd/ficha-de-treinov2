@@ -10,31 +10,38 @@
 </head>
 <body>
 
- <!-- TELA 0: LOGIN E CADASTRO -->
-<div id="tela-login" class="container-box text-center">
-    <h2>🔐 Acessar Ficha de Treino</h2>
-    <p>Faça login para salvar seu progresso automaticamente!</p>
-<form id="form-login">
-    <div class="campo-input">
-        <label for="email-login">E-mail:</label>
-        <input type="email" id="email-login" placeholder="seuemail@exemplo.com" required>
+    <!-- TELA 0: LOGIN E CADASTRO -->
+    <div id="tela-login" class="container-box text-center">
+        <h2>🔐 Acessar Ficha de Treino</h2>
+        <p class="subtitulo">Faça login para salvar seu progresso automaticamente!</p>
+        
+        <!-- BOTOES DE ALTERNÂNCIA DE ABA (ENTRAR / CADASTRAR) -->
+        <div class="abas-login">
+            <button id="btn-tab-entrar" class="btn-tab ativa" type="button">Entrar</button>
+            <button id="btn-tab-cadastrar" class="btn-tab" type="button">Cadastrar</button>
+        </div>
+
+        <form id="form-login">
+            <div class="campo-input">
+                <label for="email-login">E-mail:</label>
+                <input type="email" id="email-login" placeholder="seuemail@exemplo.com" required>
+            </div>
+
+            <div class="campo-input">
+                <label for="senha-login">Senha:</label>
+                <input type="password" id="senha-login" placeholder="Mínimo 6 caracteres" required>
+            </div>
+
+            <button type="submit" id="btn-submit-auth" class="btn-primary btn-lg" style="margin-top: 15px;">Entrar na Conta</button>
+        </form>
     </div>
 
-    <div class="campo-input">
-        <label for="senha-login">Senha:</label>
-        <input type="password" id="senha-login" placeholder="Sua senha" required>
+    <!-- TELA 1: BOAS-VINDAS CHAMATIVA (TELA INICIAL) -->
+    <div id="tela-inicio" class="container-box text-center oculto">
+        <h1 class="titulo-destaque">FITPLANNER 🔥</h1>
+        <p class="frase-impacto">Transforme sua rotina com um treino simples, prático e focado nos seus resultados.</p>
+        <button id="btn-iniciar" class="btn-destaque btn-lg">🚀 MONTA MEU TREINO AGORA</button>
     </div>
-
-<button type="submit" id="btn-entrar" class="btn-primary btn-lg" style="margin-top: 15px;">Entrar</button>
-</form>
-</div> <!-- Fecha a tela-login -->
-
-<!-- TELA 1: BOAS-VINDAS CHAMATIVA (TELA INICIAL) -->
-<div id="tela-inicio" class="container-box text-center oculto">
-    <h1 class="titulo-destaque">FITPLANNER 🔥</h1>
-    <!-- Conteúdo da sua tela inicial vem aqui -->
-</div>
-...
 
     <!-- TELA 2: CADASTRO DE PERFIL -->
     <div id="tela-perfil" class="container-box oculto">
@@ -109,15 +116,15 @@
     </div>
 
     <!-- TELA 4: CONTAINER PRINCIPAL DO APP COM NAVEGAÇÃO POR ABAS -->
-<div id="tela-treinos" class="container-treinos oculto">
-    <header class="header-perfil">
-        <div class="info-user">
-            <h2 id="boas-vindas-user">Ficha de Treino</h2>
-            <p id="detalhes-user"></p>
-            <button id="btn-resetar-semana" class="btn-reset">🔄 Zerar Semana</button>
-        </div>
-        <button id="btn-voltar" class="btn-secundario">Editar Perfil</button>
-    </header>
+    <div id="tela-treinos" class="container-treinos oculto">
+        <header class="header-perfil">
+            <div class="info-user">
+                <h2 id="boas-vindas-user">Ficha de Treino</h2>
+                <p id="detalhes-user"></p>
+            </div>
+            <button id="btn-voltar" class="btn-secundario">Editar Perfil</button>
+        </header>
+
         <!-- ABAS DE NAVEGAÇÃO -->
         <nav class="nav-abas">
             <button class="aba-btn ativa" data-aba="aba-fichas">📋 Meus Treinos</button>

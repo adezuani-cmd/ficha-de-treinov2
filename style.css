@@ -1,3 +1,6 @@
+/* ==========================================================================
+   1. CONFIGURAÇÕES GERAIS E RESET
+   ========================================================================== */
 * {
     margin: 0;
     padding: 0;
@@ -34,8 +37,11 @@ input:-webkit-autofill:active {
     transition: background-color 5000s ease-in-out 0s;
 }
 
-/* CONTAINERS */
-.container-box {
+/* ==========================================================================
+   2. LAYOUT E CONTAINERS
+   ========================================================================== */
+.container-box,
+.card-login {
     background: #141414;
     border: 1px solid #280000;
     border-top: 4px solid #8b0000;
@@ -51,7 +57,9 @@ input:-webkit-autofill:active {
     max-width: 650px;
 }
 
-/* TIPOGRAFIA */
+/* ==========================================================================
+   3. TIPOGRAFIA
+   ========================================================================== */
 .titulo-destaque {
     font-size: 2.2rem;
     color: #ff3333;
@@ -78,21 +86,71 @@ h2 {
     margin-bottom: 20px;
 }
 
-/* FORMULÁRIOS E INPUTS */
-.input-group {
+/* ==========================================================================
+   4. AUTENTICAÇÃO E LOGIN/CADASTRO (Ajustado e Unificado)
+   ========================================================================== */
+#tela-login {
     display: flex;
     flex-direction: column;
-    margin-bottom: 18px;
-    text-align: left;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
 }
 
-.input-group label {
+/* Estilo das Abas de Alternância (Entrar / Cadastrar) */
+.abas-login {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #222222;
+    width: 100%;
+}
+
+.btn-tab {
+    flex: 1;
+    padding: 10px;
+    background: transparent;
+    border: none;
+    color: #888888;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-tab.ativa {
+    color: #ffffff;
+    border-bottom: 3px solid #ff3333;
+}
+
+#tela-login form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* ==========================================================================
+   5. FORMULÁRIOS E ENTRADAS DE DADOS
+   ========================================================================== */
+.input-group,
+.campo-input {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+    text-align: left;
+    gap: 6px;
+}
+
+.input-group label,
+.campo-input label {
     font-size: 0.9rem;
     color: #cccccc;
-    margin-bottom: 6px;
+    font-weight: 500;
 }
 
-.input-group input {
+.input-group input,
+.campo-input input {
     background: #1f1f1f;
     border: 1px solid #333333;
     color: #ffffff;
@@ -103,7 +161,8 @@ h2 {
     transition: border-color 0.2s;
 }
 
-.input-group input:focus {
+.input-group input:focus,
+.campo-input input:focus {
     border-color: #8b0000;
 }
 
@@ -125,7 +184,7 @@ h2 {
 .radio-card {
     flex: 1;
     background: #1f1f1f;
-    border: 1px solid #333;
+    border: 1px solid #333333;
     padding: 12px;
     border-radius: 6px;
     cursor: pointer;
@@ -134,7 +193,7 @@ h2 {
 }
 
 .radio-card:hover {
-    border-color: #555;
+    border-color: #555555;
 }
 
 .radio-card input {
@@ -146,8 +205,11 @@ h2 {
     font-weight: bold;
 }
 
-/* BOTÕES */
-.btn-primary {
+/* ==========================================================================
+   6. BOTÕES
+   ========================================================================== */
+.btn-primary,
+.btn-principal {
     width: 100%;
     background: #8b0000;
     color: #ffffff;
@@ -160,7 +222,8 @@ h2 {
     transition: background 0.2s;
 }
 
-.btn-primary:hover {
+.btn-primary:hover,
+.btn-principal:hover {
     background: #b30000;
 }
 
@@ -189,8 +252,8 @@ h2 {
 
 .btn-secundario {
     background: #1f1f1f;
-    border: 1px solid #444;
-    color: #ccc;
+    border: 1px solid #444444;
+    color: #cccccc;
     padding: 8px 14px;
     border-radius: 6px;
     cursor: pointer;
@@ -199,10 +262,12 @@ h2 {
 
 .btn-secundario:hover {
     border-color: #ff3333;
-    color: #fff;
+    color: #ffffff;
 }
 
-/* HEADER E ABAS */
+/* ==========================================================================
+   7. CABEÇALHO E ABAS NAVEGAÇÃO
+   ========================================================================== */
 .header-perfil {
     display: flex;
     justify-content: space-between;
@@ -223,8 +288,8 @@ h2 {
 .aba-btn {
     flex: 1;
     background: #141414;
-    border: 1px solid #333;
-    color: #aaa;
+    border: 1px solid #333333;
+    color: #aaaaaa;
     padding: 12px;
     border-radius: 6px;
     cursor: pointer;
@@ -233,19 +298,22 @@ h2 {
     transition: all 0.2s;
 }
 
-.aba-btn.ativa, .aba-btn:hover {
+.aba-btn.ativa, 
+.aba-btn:hover {
     background: #8b0000;
-    color: #fff;
+    color: #ffffff;
     border-color: #ff3333;
 }
 
-/* CARDS DE TREINO E FICHA */
+/* ==========================================================================
+   8. CARDS DE TREINO E FICHA
+   ========================================================================== */
 .card-treino {
     background: #141414;
     border-radius: 8px;
     padding: 18px;
     margin-bottom: 20px;
-    border: 1px solid #222;
+    border: 1px solid #222222;
 }
 
 .header-card {
@@ -262,7 +330,7 @@ h2 {
 
 .header-card h3 {
     font-size: 0.9rem;
-    color: #aaa;
+    color: #aaaaaa;
 }
 
 .metricas-treino {
@@ -278,7 +346,7 @@ h2 {
 }
 
 .barra-progresso-bg {
-    background: #222;
+    background: #222222;
     height: 8px;
     border-radius: 4px;
     overflow: hidden;
@@ -302,7 +370,9 @@ h2 {
     text-align: center;
 }
 
-/* EXERCÍCIOS */
+/* ==========================================================================
+   9. EXERCÍCIOS E REGISTRO DE CARGAS (Ajustado ao Tema Escuro)
+   ========================================================================== */
 ul {
     list-style: none;
 }
@@ -311,7 +381,7 @@ li.item-exercicio {
     display: flex;
     flex-direction: column;
     padding: 12px 0;
-    border-bottom: 1px solid #222;
+    border-bottom: 1px solid #222222;
 }
 
 .exercicio-linha {
@@ -320,7 +390,6 @@ li.item-exercicio {
     align-items: flex-start;
 }
 
-/* Checkbox Personalizado */
 .exercicio-linha input[type="checkbox"] {
     width: 18px;
     height: 18px;
@@ -330,7 +399,7 @@ li.item-exercicio {
 }
 
 .info-exercicio strong {
-    color: #fff;
+    color: #ffffff;
 }
 
 .info-exercicio i {
@@ -339,13 +408,75 @@ li.item-exercicio {
 
 .info-exercicio small {
     display: block;
-    color: #888;
+    color: #888888;
     margin-top: 3px;
+}
+
+/* Registro de Cargas */
+.registro-carga-container {
+    display: flex;
+    gap: 16px;
+    margin: 10px 0;
+    align-items: center;
+    background-color: #1a1a1a;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #2a2a2a;
+}
+
+.registro-carga-container label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #cccccc;
+}
+
+.registro-carga-container input {
+    width: 65px;
+    padding: 5px 8px;
+    border: 1px solid #333333;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 0.9rem;
+    background-color: #0a0a0a;
+    color: #ffffff;
+}
+
+.registro-carga-container input:focus {
+    border-color: #8b0000;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(139, 0, 0, 0.2);
+}
+
+.acoes-exercicio {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+}
+
+.btn-timer-ex {
+    background-color: #1f1f1f;
+    color: #ff6666;
+    border: 1px solid #444444;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-timer-ex:hover {
+    background-color: #2a2a2a;
+    border-color: #ff3333;
 }
 
 .btn-guia {
     background: #1f1f1f;
-    border: 1px solid #333;
+    border: 1px solid #333333;
     color: #ff6666;
     font-size: 0.8rem;
     padding: 4px 8px;
@@ -368,10 +499,13 @@ li.item-exercicio {
     margin-top: 8px;
     border-radius: 4px;
     font-size: 0.85rem;
-    color: #ddd;
+    color: #dddddd;
     line-height: 1.4;
 }
 
+/* ==========================================================================
+   10. METAS, DICAS E CRONÔMETRO
+   ========================================================================== */
 .card-resultado-meta {
     background: #1f1f1f;
     padding: 15px;
@@ -389,7 +523,6 @@ li.item-exercicio {
     margin-top: 8px;
 }
 
-/* CRONÔMETRO */
 .timer-display {
     font-size: 3.5rem;
     font-weight: bold;
@@ -405,7 +538,6 @@ li.item-exercicio {
     flex-wrap: wrap;
 }
 
-/* DICAS */
 .dica-card {
     background: #1a1a1a;
     border-left: 3px solid #ff3333;
@@ -422,7 +554,7 @@ li.item-exercicio {
 
 .dica-card p {
     font-size: 0.88rem;
-    color: #ccc;
+    color: #cccccc;
     line-height: 1.4;
 }
 
@@ -431,102 +563,4 @@ li.item-exercicio {
     height: 1px;
     background: #2a2a2a;
     margin: 15px 0;
-}
-/* Estilização dos campos de Cargas e Repetições */
-.registro-carga-container {
-    display: flex;
-    gap: 16px;
-    margin: 10px 0;
-    align-items: center;
-    background-color: #f8f9fa;
-    padding: 8px 12px;
-    border-radius: 6px;
-    border: 1px solid #e9ecef;
-}
-
-.registro-carga-container label {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: #495057;
-}
-
-.registro-carga-container input {
-    width: 65px;
-    padding: 5px 8px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    text-align: center;
-    font-size: 0.9rem;
-    background-color: #ffffff;
-}
-
-.registro-carga-container input:focus {
-    border-color: #2ea44f;
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(46, 164, 79, 0.2);
-}
-
-/* Alinhamento dos botões do exercício */
-.acoes-exercicio {
-    display: flex;
-    gap: 8px;
-    margin-top: 8px;
-    flex-wrap: wrap;
-}
-
-.btn-timer-ex {
-    background-color: #e7f5ff;
-    color: #1971c2;
-    border: 1px solid #a5d8ff;
-    border-radius: 4px;
-    padding: 6px 12px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.btn-timer-ex:hover {
-    background-color: #d0ebff;
-}
-/* ESTILO DA TELA DE LOGIN */
-#tela-login {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 30px 20px;
-}
-
-#tela-login form {
-    width: 100%;
-    max-width: 320px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.campo-input {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    gap: 6px;
-}
-
-.campo-input label {
-    font-size: 14px;
-    font-weight: 600;
-}
-
-.campo-input input {
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #333;
-    background-color: #1a1a1a;
-    color: #fff;
-    font-size: 15px;
 }
