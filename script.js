@@ -41,32 +41,36 @@ document.addEventListener('DOMContentLoaded', () => {
         telaLogin?.classList.remove('oculto');
     }
 
-    // 4. AO LOGAR OU CADASTRAR UM NOVO E-MAIL
-    if (formLogin) {
-        formLogin.addEventListener('submit', (e) => {
-            e.preventDefault(); // Impede o recarregamento da página
+   // 4. AO LOGAR OU CADASTRAR UM NOVO E-MAIL
+if (formLogin) {
+    formLogin.addEventListener('submit', (e) => {
+        e.preventDefault(); // Impede o recarregamento da página
 
-            const emailInput = document.getElementById('email-login')?.value.toLowerCase().trim();
-            if (!emailInput) return;
+        // Busca o input do e-mail (tenta pelo ID 'email-login' ou pelo primeiro input de e-mail/texto do formulário)
+        const inputEmail = document.getElementById('email-login') || formLogin.querySelector('input[type="email"]') || formLogin.querySelector('input');
+        const emailInput = inputEmail ? inputEmail.value.toLowerCase().trim() : '';
 
-            // Salva qual e-mail está com a sessão ativa
-            usuarioLogado = { email: emailInput, logado: true };
-            localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
+        if (!emailInput) {
+            alert('Por favor, digite um e-mail válido.');
+            return;
+        }
 
-            // Carrega os dados específicos desse e-mail (se existirem)
-            carregarDadosDoUsuario(emailInput);
+        // Salva qual e-mail está com a sessão ativa
+        usuarioLogado = { email: emailInput, logado: true };
+        localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
 
-function carregarDadosDoUsuario(email) {
-    const chaveAluno = `dadosAluno_${email}`;
-    const chaveProgresso = `progressoExer_${email}`;
+        // Carrega os dados específicos deste e-mail
+        carregarDadosDoUsuario(emailInput);
 
-    dadosAluno = JSON.parse(localStorage.getItem(chaveAluno)) || {};
-    progressoExer = JSON.parse(localStorage.getItem(chaveProgresso)) || {};
+        ocultarTodasTelas();
 
-    // COLE AQUI: Atualiza os dados da tela na hora que puxa do localStorage
-    if (typeof exibirFichaTreino === 'function') {
-        exibirFichaTreino();
-    }
+        // Troca de tela na hora
+        if (dadosAluno && dadosAluno.nome) {
+            document.getElementById('tela-treinos')?.classList.remove('oculto');
+        } else {
+            document.getElementById('tela-inicio')?.classList.remove('oculto');
+        }
+    });
 }
             ocultarTodasTelas();
 
