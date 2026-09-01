@@ -84,12 +84,11 @@ if (btnLogin) {
                 document.getElementById('tela-inicio')?.classList.remove('oculto');
             }
         });
-    }
 
-    // 5. QUANDO O USUÁRIO SALVAR O PERFIL (Peso, Objetivo de Gordura/Massa, etc.)
-    // Certifique-se de salvar na chave individual do e-mail dele:
-    const formPerfil = document.getElementById('form-perfil'); // Ajuste o ID do seu formulário se necessário
-    if (formPerfil) {
+// 5. QUANDO O USUÁRIO SALVAR O PERFIL (Peso, Objetivo de Gordura/Massa, etc.)
+// Certifique-se de salvar na chave individual do e-mail dele:
+const formPerfil = document.getElementById('form-perfil');
+if (formPerfil) {
         formPerfil.addEventListener('submit', (e) => {
             e.preventDefault();
             
@@ -108,7 +107,7 @@ if (btnLogin) {
             document.getElementById('tela-treinos')?.classList.remove('oculto');
         });
     }
-});
+
     const treinosPerda = [
         {
             dia: "Segunda-Feira • Treino A",
@@ -512,7 +511,7 @@ if (btnLogin) {
             `;
         });
     }
-});
+
 
 // GUIA EXPANSÍVEL
 function toggleGuia(id) {
@@ -571,4 +570,5 @@ function ocultarTodasTelas() {
     document.getElementById('tela-perfil')?.classList.add('oculto');
     document.getElementById('tela-metas')?.classList.add('oculto');
     document.getElementById('tela-treinos')?.classList.add('oculto');
-}
+} 
+});
