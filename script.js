@@ -1,42 +1,45 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Leitura segura do localStorage
-    let dadosAluno = {};
-    let progressoExer = {};
-document.addEventListener('DOMContentLoaded', () => {
-    // Leitura segura do localStorage
-    let dadosAluno = {};
-    let progressoExer = {};
+    let dadosAluno = JSON.parse(localStorage.getItem('dadosAluno')) || {};
+    let progressoExer = JSON.parse(localStorage.getItem('progressoExer')) || {};
 
     // --- LÓGICA DE LOGIN ---
-    let usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado')) || null;
+    const usuarioSalvo = JSON.parse(localStorage.getItem('usuarioLogado'));
     const telaLogin = document.getElementById('tela-login');
     const formLogin = document.getElementById('form-login');
 
-    // Se o usuário já está logado e já preencheu os dados antes, vai direto para o treino
-    if (usuarioLogado && dadosAluno.nome) {
+    if (usuarioSalvo && usuarioSalvo.logado) {
+        // Se já está logado, entra direto nos treinos
         ocultarTodasTelas();
         document.getElementById('tela-treinos')?.classList.remove('oculto');
-    } else if (!usuarioLogado) {
+    } else {
+        // Se não está logado, mostra a tela de login
         ocultarTodasTelas();
         telaLogin?.classList.remove('oculto');
     }
 
-    // Ao enviar o formulário de login
+    // AO ENVIAR O FORMULÁRIO DE LOGIN
     if (formLogin) {
         formLogin.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email-login').value;
+            e.preventDefault(); // Impede o recarregamento da página no celular
+            
+            const emailInput = document.getElementById('email-login')?.value || 'usuario@email.com';
 
-            // Grava a sessão do usuário no navegador
-            localStorage.setItem('usuarioLogado', JSON.stringify({ email: email }));
+            // 1. Salva a sessão no navegador do celular
+            const sessao = { email: emailInput, logado: true };
+            localStorage.setItem('usuarioLogado', JSON.stringify(sessao));
 
-            // Se já tem cadastro anterior vai pro treino, senão vai pro fluxo de boas-vindas
-            if (dadosAluno.nome) {
-                ocultarTodasTelas();
-                document.getElementById('tela-treinos')?.classList.remove('oculto');
-            } else {
-                ocultarTodasTelas();
-                document.getElementById('tela-inicio')?.classList.remove('oculto');
+            // 2. Garante que os dados do aluno existem para não travar
+            if (!dadosAluno || !dadosAluno.nome) {
+                dadosAluno = { nome: "Atleta", pesoAtual: "--", pesoMeta: "--" };
+                localStorage.setItem('dadosAluno', JSON.stringify(dadosAluno));
+            }
+
+            // 3. Oculta tudo e abre a Ficha de Treino
+            ocultarTodasTelas();
+            const telaTreinos = document.getElementById('tela-treinos');
+            if (telaTreinos) {
+                telaTreinos.classList.remove('oculto');
             }
         });
     }
