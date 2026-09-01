@@ -2,54 +2,107 @@ document.addEventListener('DOMContentLoaded', () => {
     // Leitura segura do localStorage
     let dadosAluno = JSON.parse(localStorage.getItem('dadosAluno')) || {};
     let progressoExer = JSON.parse(localStorage.getItem('progressoExer')) || {};
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. VERIFICA SE JÁ EXISTE SESSÃO ATIVA
+    let usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+    
+    // Variáveis globais para os dados do usuário atual
+    let dadosAluno = {};
+    let progressoExer = {};
 
-    // --- LÓGICA DE LOGIN ---
-    const usuarioSalvo = JSON.parse(localStorage.getItem('usuarioLogado'));
     const telaLogin = document.getElementById('tela-login');
     const formLogin = document.getElementById('form-login');
 
-    if (usuarioSalvo && usuarioSalvo.logado) {
-        // Se já está logado, entra direto nos treinos
+    // 2. FUNÇÃO PARA CARREGAR OS DADOS EXCLUSIVOS DO USUÁRIO QUE FEZ LOGIN
+    function carregarDadosDoUsuario(email) {
+        // Usa o e-mail como chave única para cada usuário
+        const chaveAluno = `dadosAluno_${email}`;
+        const chaveProgresso = `progressoExer_${email}`;
+
+        dadosAluno = JSON.parse(localStorage.getItem(chaveAluno)) || {};
+        progressoExer = JSON.parse(localStorage.getItem(chaveProgresso)) || {};
+    }
+
+    // 3. SE JÁ ESTÁ LOGADO, CARREGA OS DADOS DAFICHA DAQUELE E-MAIL ESPECÍFICO
+    if (usuarioLogado && usuarioLogado.email) {
+        carregarDadosDoUsuario(usuarioLogado.email);
+
         ocultarTodasTelas();
-        document.getElementById('tela-treinos')?.classList.remove('oculto');
+        if (dadosAluno.nome) {
+            // Se já preencheu o perfil (perda de gordura/massa, etc.), vai direto para os treinos dele
+            document.getElementById('tela-treinos')?.classList.remove('oculto');
+        } else {
+            // Se é o primeiro acesso desse e-mail, vai para a tela de preenchimento de perfil/metas
+            document.getElementById('tela-inicio')?.classList.remove('oculto');
+        }
     } else {
-        // Se não está logado, mostra a tela de login
+        // Se ninguém está logado, exibe a tela de login
         ocultarTodasTelas();
         telaLogin?.classList.remove('oculto');
     }
 
-    // AO ENVIAR O FORMULÁRIO DE LOGIN
+    // 4. AO LOGAR OU CADASTRAR UM NOVO E-MAIL
     if (formLogin) {
         formLogin.addEventListener('submit', (e) => {
-            e.preventDefault(); // Impede o recarregamento da página no celular
-            
-            const emailInput = document.getElementById('email-login')?.value || 'usuario@email.com';
+            e.preventDefault(); // Impede o recarregamento da página
 
-            // 1. Salva a sessão no navegador do celular
-            const sessao = { email: emailInput, logado: true };
-            localStorage.setItem('usuarioLogado', JSON.stringify(sessao));
+            const emailInput = document.getElementById('email-login')?.value.toLowerCase().trim();
+            if (!emailInput) return;
 
-            // 2. Garante que os dados do aluno existem para não travar
-            if (!dadosAluno || !dadosAluno.nome) {
-                dadosAluno = { nome: "Atleta", pesoAtual: "--", pesoMeta: "--" };
-                localStorage.setItem('dadosAluno', JSON.stringify(dadosAluno));
-            }
+            // Salva qual e-mail está com a sessão ativa
+            usuarioLogado = { email: emailInput, logado: true };
+            localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
 
-            // 3. Oculta tudo e abre a Ficha de Treino
+            // Carrega os dados específicos desse e-mail (se existirem)
+            carregarDadosDoUsuario(emailInput);
+
+function carregarDadosDoUsuario(email) {
+    const chaveAluno = `dadosAluno_${email}`;
+    const chaveProgresso = `progressoExer_${email}`;
+
+    dadosAluno = JSON.parse(localStorage.getItem(chaveAluno)) || {};
+    progressoExer = JSON.parse(localStorage.getItem(chaveProgresso)) || {};
+
+    // COLE AQUI: Atualiza os dados da tela na hora que puxa do localStorage
+    if (typeof exibirFichaTreino === 'function') {
+        exibirFichaTreino();
+    }
+}
             ocultarTodasTelas();
-            const telaTreinos = document.getElementById('tela-treinos');
-            if (telaTreinos) {
-                telaTreinos.classList.remove('oculto');
+
+            // Se o usuário desse e-mail já configurou sua ficha antes, vai pro treino dele.
+            // Se for um e-mail novo, vai para o formulário de cadastro de metas/pesos.
+            if (dadosAluno.nome) {
+                document.getElementById('tela-treinos')?.classList.remove('oculto');
+            } else {
+                document.getElementById('tela-inicio')?.classList.remove('oculto');
             }
         });
     }
-    try {
-        dadosAluno = JSON.parse(localStorage.getItem('dadosAluno')) || {};
-        progressoExer = JSON.parse(localStorage.getItem('progressoExer')) || {};
-    } catch (e) {
-        console.error('Erro ao ler dados do localStorage:', e);
-    }
 
+    // 5. QUANDO O USUÁRIO SALVAR O PERFIL (Peso, Objetivo de Gordura/Massa, etc.)
+    // Certifique-se de salvar na chave individual do e-mail dele:
+    const formPerfil = document.getElementById('form-perfil'); // Ajuste o ID do seu formulário se necessário
+    if (formPerfil) {
+        formPerfil.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Coleta os dados digitados na tela
+            dadosAluno.nome = document.getElementById('nome-aluno')?.value || 'Atleta';
+            dadosAluno.pesoAtual = document.getElementById('peso-atual')?.value || '--';
+            dadosAluno.pesoMeta = document.getElementById('peso-meta')?.value || '--';
+            dadosAluno.objetivo = document.getElementById('objetivo-aluno')?.value || 'Geral';
+
+            // Salva no localStorage com o e-mail do usuário logado
+            if (usuarioLogado && usuarioLogado.email) {
+                localStorage.setItem(`dadosAluno_${usuarioLogado.email}`, JSON.stringify(dadosAluno));
+            }
+
+            ocultarTodasTelas();
+            document.getElementById('tela-treinos')?.classList.remove('oculto');
+        });
+    }
+});
     const treinosPerda = [
         {
             dia: "Segunda-Feira • Treino A",
@@ -379,6 +432,18 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             container.innerHTML += cardHtml;
         });
+        // Cole aqui, logo abaixo do });
+    document.querySelectorAll('.chk-exercicio').forEach(checkbox => {
+        checkbox.addEventListener('change', (e) => {
+            const idExer = e.target.getAttribute('data-id');
+            progressoExer[idExer] = e.target.checked;
+
+            // Salva o progresso dinamicamente usando o e-mail do usuário ativo
+            if (usuarioLogado && usuarioLogado.email) {
+                localStorage.setItem(`progressoExer_${usuarioLogado.email}`, JSON.stringify(progressoExer));
+            }
+        });
+    });
 
         // Event listener para checkboxes de progresso
         document.querySelectorAll('.chk-exercicio').forEach(chk => {
