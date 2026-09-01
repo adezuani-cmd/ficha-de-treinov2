@@ -1,12 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // VARIÁVEIS DE ESTADO GLOBAL
+    // 1. VARIÁVEIS DE ESTADO GLOBAL
     let usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado')) || null;
     let dadosAluno = {};
     let progressoExer = {};
     let intervalTimer = null;
     let tempoRestante = 0;
+    let modoAuth = 'entrar'; // Controla se o formulário está em modo 'entrar' ou 'cadastrar'
 
-    // DADOS FIXOS: TREINOS E DICAS
+    // 2. DADOS FIXOS: TREINOS E DICAS
     const treinosPerda = [
         {
             dia: "Segunda-Feira • Treino A",
@@ -151,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { titulo: "💤 4. Sono Reparador", desc: "Treino gera o estímulo, o descanso gera o resultado. Tente dormir entre 7 a 8 horas por noite." }
     ];
 
-    // GERENCIAMENTO DE DADOS DO USUÁRIO
+    // 3. GERENCIAMENTO DE DADOS DO USUÁRIO
     function carregarDadosDoUsuario(email) {
         if (!email) return;
         const chaveAluno = `dadosAluno_${email}`;
@@ -176,33 +177,96 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('tela-treinos')?.classList.add('oculto');
     }
 
-    // CONTROLE DE NAVEGAÇÃO E LOGIN
+    // 4. CONTROLE DE NAVEGAÇÃO, AUTENTICAÇÃO E LOGIN/CADASTRO
+    const btnTabEntrar = document.getElementById('btn-tab-entrar');
+    const btnTabCadastrar = document.getElementById('btn-tab-cadastrar');
+    const btnSubmitAuth = document.getElementById('btn-submit-auth');
+
+    // Alternar para a aba "Entrar"
+    btnTabEntrar?.addEventListener('click', () => {
+        modoAuth = 'entrar';
+        btnTabEntrar.classList.add('ativa');
+        btnTabCadastrar?.classList.remove('ativa');
+        if (btnSubmitAuth) btnSubmitAuth.innerText = 'Entrar na Conta';
+    });
+
+    // Alternar para a aba "Cadastrar"
+    btnTabCadastrar?.addEventListener('click', () => {
+        modoAuth = 'cadastrar';
+        btnTabCadastrar.classList.add('ativa');
+        btnTabEntrar?.classList.remove('ativa');
+        if (btnSubmitAuth) btnSubmitAuth.innerText = 'Criar Minha Conta';
+    });
+
+    // Processar login e cadastro
     const formLogin = document.getElementById('form-login');
     if (formLogin) {
         formLogin.addEventListener('submit', (e) => {
             e.preventDefault();
-            const inputEmail = document.getElementById('email-login') || document.querySelector('#form-login input[type="email"]');
-            const emailInput = inputEmail ? inputEmail.value.toLowerCase().trim() : '';
 
-            if (!emailInput) {
-                alert('Por favor, informe seu e-mail.');
+            const emailInput = document.getElementById('email-login')?.value.toLowerCase().trim();
+            const senhaInput = document.getElementById('senha-login')?.value;
+
+            if (!emailInput || !senhaInput) {
+                alert('Por favor, preencha o e-mail e a senha.');
                 return;
             }
 
-            usuarioLogado = { email: emailInput, logado: true };
-            localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
-            carregarDadosDoUsuario(emailInput);
+            if (senhaInput.length < 6) {
+                alert('A senha deve ter pelo menos 6 caracteres.');
+                return;
+            }
 
-            ocultarTodasTelas();
-            if (dadosAluno && dadosAluno.nome) {
-                exibirFichaTreino();
-            } else {
+            const usuariosCadastrados = JSON.parse(localStorage.getItem('usuariosCadastrados')) || {};
+
+            if (modoAuth === 'cadastrar') {
+                if (usuariosCadastrados[emailInput]) {
+                    alert('Este e-mail já está cadastrado! Alterne para a aba "Entrar".');
+                    return;
+                }
+
+                // Cria o novo registro do usuário
+                usuariosCadastrados[emailInput] = { senha: senhaInput };
+                localStorage.setItem('usuariosCadastrados', JSON.stringify(usuariosCadastrados));
+
+                // Faz login do novo usuário
+                usuarioLogado = { email: emailInput, logado: true };
+                localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
+                carregarDadosDoUsuario(emailInput);
+
+                alert('Conta criada com sucesso!');
+                ocultarTodasTelas();
                 document.getElementById('tela-inicio')?.classList.remove('oculto');
+
+            } else {
+                // Fluxo de Login
+                const contaExistente = usuariosCadastrados[emailInput];
+
+                if (!contaExistente) {
+                    alert('E-mail não encontrado. Crie uma conta na aba "Cadastrar".');
+                    return;
+                }
+
+                if (contaExistente.senha !== senhaInput) {
+                    alert('Senha incorreta! Tente novamente.');
+                    return;
+                }
+
+                usuarioLogado = { email: emailInput, logado: true };
+                localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
+                carregarDadosDoUsuario(emailInput);
+
+                ocultarTodasTelas();
+                if (dadosAluno && dadosAluno.nome) {
+                    exibirFichaTreino();
+                } else {
+                    document.getElementById('tela-inicio')?.classList.remove('oculto');
+                }
             }
         });
     }
 
-    // FORMULÁRIOS DE PERFIL E METAS
+    // 5. FORMULÁRIOS DE PERFIL E METAS
     const btnIniciar = document.getElementById('btn-iniciar');
     if (btnIniciar) {
         btnIniciar.addEventListener('click', () => {
@@ -285,7 +349,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // RENDERIZAÇÃO DA INTERFACE
+    // 6. RENDERIZAÇÃO DA INTERFACE
     function exibirFichaTreino() {
         const textoObj = dadosAluno.objetivo === 'perda' ? 'Perda de Gordura' : 'Ganho de Massa';
 
@@ -364,7 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
             container.innerHTML += cardHtml;
         });
 
-        // Event listeners para progresso dos exercícios
+        // Listeners dos checkboxes de progresso
         document.querySelectorAll('.chk-exercicio').forEach(chk => {
             chk.addEventListener('change', (e) => {
                 const id = e.target.getAttribute('data-id');
@@ -377,7 +441,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Event listeners para guias de execução
+        // Listeners dos botões de guia de execução
         document.querySelectorAll('.btn-guia').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const id = e.target.getAttribute('data-id');
@@ -427,7 +491,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // NAVEGAÇÃO DE ABAS
+    // 7. NAVEGAÇÃO DE ABAS
     document.querySelectorAll('.aba-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             document.querySelectorAll('.aba-btn').forEach(b => b.classList.remove('ativa'));
@@ -440,7 +504,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // CRONÔMETRO GLOBAL
+    // 8. CRONÔMETRO GLOBAL
     window.iniciarTimer = function(segundos) {
         clearInterval(intervalTimer);
         tempoRestante = segundos;
@@ -472,7 +536,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // AUTO-LOGIN (INICIALIZAÇÃO)
+    // 9. INICIALIZAÇÃO E AUTO-LOGIN
     if (usuarioLogado && usuarioLogado.email) {
         carregarDadosDoUsuario(usuarioLogado.email);
         ocultarTodasTelas();
@@ -488,7 +552,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// REGISTRO DO SERVICE WORKER (PWA)
+// 10. REGISTRO DO SERVICE WORKER (PWA)
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
