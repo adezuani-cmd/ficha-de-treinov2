@@ -12,6 +12,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const telaLogin = document.getElementById('tela-login');
     const formLogin = document.getElementById('form-login');
+    if (formLogin) {
+    formLogin.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        // Pega o e-mail digitado no campo de login
+        const emailInput = document.getElementById('email-login')?.value || '';
+        
+        if (emailInput) {
+            // Salva o e-mail no localStorage para manter a sessão
+            localStorage.setItem('usuarioLogado', JSON.stringify({ email: emailInput }));
+            
+            // Carrega os dados específicos desse e-mail
+            carregarDadosDoUsuario(emailInput);
+            
+            // Esconde a tela de login e mostra a tela principal/treinos
+            document.getElementById('tela-login')?.classList.add('oculto');
+            document.getElementById('tela-inicio')?.classList.remove('oculto');
+        }
+    });
+}
 
     // 2. FUNÇÃO PARA CARREGAR OS DADOS EXCLUSIVOS DO USUÁRIO QUE FEZ LOGIN
     function carregarDadosDoUsuario(email) {
