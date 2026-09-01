@@ -14,25 +14,26 @@
 <div id="tela-login" class="container-box text-center">
     <h2>🔐 Acessar Ficha de Treino</h2>
     <p>Faça login para salvar seu progresso automaticamente!</p>
+<form id="form-login">
+    <div class="campo-input">
+        <label for="email-login">E-mail:</label>
+        <input type="email" id="email-login" placeholder="seuemail@exemplo.com" required>
+    </div>
 
-    <form id="form-login" onsubmit="return false;">
+    <div class="campo-input">
+        <label for="senha-login">Senha:</label>
+        <input type="password" id="senha-login" placeholder="Sua senha" required>
+    </div>
 
-        <div class="campo-input">
-            <label for="email-login">E-mail:</label>
-            <input type="email" id="email-login" placeholder="seuemail@exemplo.com" required>
-        </div>
+<button type="submit" id="btn-entrar" class="btn-primary btn-lg" style="margin-top: 15px;">Entrar</button>
+</form>
+</div> <!-- Fecha a tela-login -->
 
-        <div class="campo-input">
-            <label for="senha-login">Senha:</label>
-            <input type="password" id="senha-login" placeholder="Sua senha" required>
-        </div>
-
-        <button type="submit" id="btn-entrar" class="btn-primary btn-lg" style="margin-top: 15px;">Entrar / Cadastrar</button>
-    </form>
-</div>
-<!-- TELA 1: BOAS-VINDAS CHAMATIVA -->
+<!-- TELA 1: BOAS-VINDAS CHAMATIVA (TELA INICIAL) -->
 <div id="tela-inicio" class="container-box text-center oculto">
     <h1 class="titulo-destaque">FITPLANNER 🔥</h1>
+    <!-- Conteúdo da sua tela inicial vem aqui -->
+</div>
 ...
 
     <!-- TELA 2: CADASTRO DE PERFIL -->

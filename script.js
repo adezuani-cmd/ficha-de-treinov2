@@ -1,133 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Leitura segura do localStorage
-    let dadosAluno = JSON.parse(localStorage.getItem('dadosAluno')) || {};
-    let progressoExer = JSON.parse(localStorage.getItem('progressoExer')) || {};
-document.addEventListener('DOMContentLoaded', () => {
-    // 1. VERIFICA SE JÁ EXISTE SESSÃO ATIVA
-    let usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-    
-    // Variáveis globais para os dados do usuário atual
+    // VARIÁVEIS DE ESTADO GLOBAL
+    let usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado')) || null;
     let dadosAluno = {};
     let progressoExer = {};
+    let intervalTimer = null;
+    let tempoRestante = 0;
 
-    const telaLogin = document.getElementById('tela-login');
-    const formLogin = document.getElementById('form-login');
-    if (formLogin) {
-    formLogin.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        // Pega o e-mail digitado no campo de login
-        const emailInput = document.getElementById('email-login')?.value || '';
-        
-        if (emailInput) {
-            // Salva o e-mail no localStorage para manter a sessão
-            localStorage.setItem('usuarioLogado', JSON.stringify({ email: emailInput }));
-            
-            // Carrega os dados específicos desse e-mail
-            carregarDadosDoUsuario(emailInput);
-            
-            // Esconde a tela de login e mostra a tela principal/treinos
-            document.getElementById('tela-login')?.classList.add('oculto');
-            document.getElementById('tela-inicio')?.classList.remove('oculto');
-        }
-    });
-}
-
-    // 2. FUNÇÃO PARA CARREGAR OS DADOS EXCLUSIVOS DO USUÁRIO QUE FEZ LOGIN
-    function carregarDadosDoUsuario(email) {
-        // Usa o e-mail como chave única para cada usuário
-        const chaveAluno = `dadosAluno_${email}`;
-        const chaveProgresso = `progressoExer_${email}`;
-
-        dadosAluno = JSON.parse(localStorage.getItem(chaveAluno)) || {};
-        progressoExer = JSON.parse(localStorage.getItem(chaveProgresso)) || {};
-    }
-
-    // 3. SE JÁ ESTÁ LOGADO, CARREGA OS DADOS DAFICHA DAQUELE E-MAIL ESPECÍFICO
-    if (usuarioLogado && usuarioLogado.email) {
-        carregarDadosDoUsuario(usuarioLogado.email);
-
-        ocultarTodasTelas();
-        if (dadosAluno.nome) {
-            // Se já preencheu o perfil (perda de gordura/massa, etc.), vai direto para os treinos dele
-            document.getElementById('tela-treinos')?.classList.remove('oculto');
-        } else {
-            // Se é o primeiro acesso desse e-mail, vai para a tela de preenchimento de perfil/metas
-            document.getElementById('tela-inicio')?.classList.remove('oculto');
-        }
-    } else {
-        // Se ninguém está logado, exibe a tela de login
-        ocultarTodasTelas();
-        telaLogin?.classList.remove('oculto');
-    }
-
-   // 4. AO LOGAR OU CADASTRAR UM NOVO E-MAIL (Escutando o botão direto)
-const btnLogin = document.querySelector('#form-login button') || document.querySelector('#form-login input[type="submit"]');
-
-if (btnLogin) {
-    btnLogin.addEventListener('click', (e) => {
-        e.preventDefault(); // Trava a atualização da página imediatamente
-
-        // Busca o campo de e-mail
-        const inputEmail = document.getElementById('email-login') || document.querySelector('#form-login input[type="email"]');
-        const emailInput = inputEmail ? inputEmail.value.toLowerCase().trim() : '';
-
-        if (!emailInput) {
-            alert('Por favor, informe seu e-mail.');
-            return;
-        }
-
-        // Salva a sessão do usuário
-        usuarioLogado = { email: emailInput, logado: true };
-        localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
-
-        // Carrega os dados salvos desse e-mail
-        carregarDadosDoUsuario(emailInput);
-
-        // Troca as telas na hora
-        ocultarTodasTelas();
-
-        if (dadosAluno && dadosAluno.nome) {
-            document.getElementById('tela-treinos')?.classList.remove('oculto');
-        } else {
-            document.getElementById('tela-inicio')?.classList.remove('oculto');
-        }
-    });
-}
-            ocultarTodasTelas();
-
-            // Se o usuário desse e-mail já configurou sua ficha antes, vai pro treino dele.
-            // Se for um e-mail novo, vai para o formulário de cadastro de metas/pesos.
-            if (dadosAluno.nome) {
-                document.getElementById('tela-treinos')?.classList.remove('oculto');
-            } else {
-                document.getElementById('tela-inicio')?.classList.remove('oculto');
-            }
-        });
-
-// 5. QUANDO O USUÁRIO SALVAR O PERFIL (Peso, Objetivo de Gordura/Massa, etc.)
-// Certifique-se de salvar na chave individual do e-mail dele:
-const formPerfil = document.getElementById('form-perfil');
-if (formPerfil) {
-        formPerfil.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            // Coleta os dados digitados na tela
-            dadosAluno.nome = document.getElementById('nome-aluno')?.value || 'Atleta';
-            dadosAluno.pesoAtual = document.getElementById('peso-atual')?.value || '--';
-            dadosAluno.pesoMeta = document.getElementById('peso-meta')?.value || '--';
-            dadosAluno.objetivo = document.getElementById('objetivo-aluno')?.value || 'Geral';
-
-            // Salva no localStorage com o e-mail do usuário logado
-            if (usuarioLogado && usuarioLogado.email) {
-                localStorage.setItem(`dadosAluno_${usuarioLogado.email}`, JSON.stringify(dadosAluno));
-            }
-
-            ocultarTodasTelas();
-            document.getElementById('tela-treinos')?.classList.remove('oculto');
-        });
-    }
-
+    // DADOS FIXOS: TREINOS E DICAS
     const treinosPerda = [
         {
             dia: "Segunda-Feira • Treino A",
@@ -259,7 +138,7 @@ if (formPerfil) {
                 { id: "g_e2", nome: "2. Stiff no Smith", series: "4x (8 a 10 reps)", descanso: "90s", obs: "Empurre o quadril para trás.", guia: "Desça a barra rente às pernas mantendo a coluna reta." },
                 { id: "g_e3", nome: "3. Afundo Reverso com Halteres", series: "3x 10 reps cada perna", descanso: "75s", obs: "Passo longo para trás.", guia: "Controle a descida sem bater o joelho no chão." },
                 { id: "g_e4", nome: "4. Glúteo no Banco 45º", series: "3x (12 a 15 reps)", descanso: "60s", obs: "Concentre no quadril.", guia: "Suba apertando o bumbum sem forçar a lombar." },
-                { id: "g_e5", nome: "5. Cadeira Abdutora", series: "4x (15 a 20 reps)", descanso: "45s", obs: "Exaustão final.", guia: "Movimento cadenciado e sem trancos." },
+                { id: "g_e5", nome: "5. Cadeira Abdutora", series: "4x (15 a 20 reps)", descanso: "45s", obs: "Exhaustão final.", guia: "Movimento cadenciado e sem trancos." },
                 { id: "g_e6", nome: "6. Panturrilha no Leg Press", series: "4x 15 reps", descanso: "45s", obs: "Extensão total da ponta do pé.", guia: "Empurre com a ponta dos pés na plataforma." }
             ]
         }
@@ -272,21 +151,67 @@ if (formPerfil) {
         { titulo: "💤 4. Sono Reparador", desc: "Treino gera o estímulo, o descanso gera o resultado. Tente dormir entre 7 a 8 horas por noite." }
     ];
 
-    // ELEMENTOS DOM
-    const btnIniciar = document.getElementById('btn-iniciar');
-    const formAluno = document.getElementById('form-aluno');
-    const formMetas = document.getElementById('form-metas');
-    const btnAcessarFicha = document.getElementById('btn-acessar-ficha');
-    const btnVoltar = document.getElementById('btn-voltar');
+    // GERENCIAMENTO DE DADOS DO USUÁRIO
+    function carregarDadosDoUsuario(email) {
+        if (!email) return;
+        const chaveAluno = `dadosAluno_${email}`;
+        const chaveProgresso = `progressoExer_${email}`;
 
-    // NAVEGAÇÃO ENTRE TELAS
+        dadosAluno = JSON.parse(localStorage.getItem(chaveAluno)) || {};
+        progressoExer = JSON.parse(localStorage.getItem(chaveProgresso)) || {};
+    }
+
+    function salvarDadosDoUsuario() {
+        if (usuarioLogado && usuarioLogado.email) {
+            localStorage.setItem(`dadosAluno_${usuarioLogado.email}`, JSON.stringify(dadosAluno));
+            localStorage.setItem(`progressoExer_${usuarioLogado.email}`, JSON.stringify(progressoExer));
+        }
+    }
+
+    function ocultarTodasTelas() {
+        document.getElementById('tela-login')?.classList.add('oculto');
+        document.getElementById('tela-inicio')?.classList.add('oculto');
+        document.getElementById('tela-perfil')?.classList.add('oculto');
+        document.getElementById('tela-metas')?.classList.add('oculto');
+        document.getElementById('tela-treinos')?.classList.add('oculto');
+    }
+
+    // CONTROLE DE NAVEGAÇÃO E LOGIN
+    const formLogin = document.getElementById('form-login');
+    if (formLogin) {
+        formLogin.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const inputEmail = document.getElementById('email-login') || document.querySelector('#form-login input[type="email"]');
+            const emailInput = inputEmail ? inputEmail.value.toLowerCase().trim() : '';
+
+            if (!emailInput) {
+                alert('Por favor, informe seu e-mail.');
+                return;
+            }
+
+            usuarioLogado = { email: emailInput, logado: true };
+            localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
+            carregarDadosDoUsuario(emailInput);
+
+            ocultarTodasTelas();
+            if (dadosAluno && dadosAluno.nome) {
+                exibirFichaTreino();
+            } else {
+                document.getElementById('tela-inicio')?.classList.remove('oculto');
+            }
+        });
+    }
+
+    // FORMULÁRIOS DE PERFIL E METAS
+    const btnIniciar = document.getElementById('btn-iniciar');
     if (btnIniciar) {
         btnIniciar.addEventListener('click', () => {
-            document.getElementById('tela-inicio')?.classList.add('oculto');
+            ocultarTodasTelas();
             document.getElementById('tela-perfil')?.classList.remove('oculto');
         });
     }
 
+    const formAluno = document.getElementById('form-aluno');
     if (formAluno) {
         formAluno.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -299,20 +224,14 @@ if (formPerfil) {
                 dadosAluno.objetivo = objetivoInput.value;
             }
 
-            const labelPesoDesejado = document.getElementById('label-peso-desejado');
-            if (labelPesoDesejado) {
-                labelPesoDesejado.innerText = dadosAluno.objetivo === 'perda' 
-                    ? 'Peso Desejado para Emagrecer (kg):' 
-                    : 'Peso Desejado para Ganhar (kg):';
-            }
+            salvarDadosDoUsuario();
 
-            localStorage.setItem('dadosAluno', JSON.stringify(dadosAluno));
-
-            document.getElementById('tela-perfil')?.classList.add('oculto');
+            ocultarTodasTelas();
             document.getElementById('tela-metas')?.classList.remove('oculto');
         });
     }
 
+    const formMetas = document.getElementById('form-metas');
     if (formMetas) {
         formMetas.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -325,7 +244,7 @@ if (formPerfil) {
                 dadosAluno.objetivo = 'perda';
             }
 
-            localStorage.setItem('dadosAluno', JSON.stringify(dadosAluno));
+            salvarDadosDoUsuario();
 
             const resumoBox = document.getElementById('resumo-calculo-texto');
             const resultadoContainer = document.getElementById('resultado-meta');
@@ -351,12 +270,22 @@ if (formPerfil) {
         });
     }
 
+    const btnAcessarFicha = document.getElementById('btn-acessar-ficha');
     if (btnAcessarFicha) {
         btnAcessarFicha.addEventListener('click', () => {
             exibirFichaTreino();
         });
     }
 
+    const btnVoltar = document.getElementById('btn-voltar');
+    if (btnVoltar) {
+        btnVoltar.addEventListener('click', () => {
+            ocultarTodasTelas();
+            document.getElementById('tela-inicio')?.classList.remove('oculto');
+        });
+    }
+
+    // RENDERIZAÇÃO DA INTERFACE
     function exibirFichaTreino() {
         const textoObj = dadosAluno.objetivo === 'perda' ? 'Perda de Gordura' : 'Ganho de Massa';
 
@@ -369,33 +298,10 @@ if (formPerfil) {
         renderizarFichas(dadosAluno.objetivo || 'ganho');
         renderizarDicas();
 
-        document.getElementById('tela-metas')?.classList.add('oculto');
-        document.getElementById('tela-perfil')?.classList.add('oculto');
-        document.getElementById('tela-inicio')?.classList.add('oculto');
+        ocultarTodasTelas();
         document.getElementById('tela-treinos')?.classList.remove('oculto');
     }
 
-    if (btnVoltar) {
-        btnVoltar.addEventListener('click', () => {
-            document.getElementById('tela-treinos')?.classList.add('oculto');
-            document.getElementById('tela-inicio')?.classList.remove('oculto');
-        });
-    }
-
-    // NAVEGAÇÃO DE ABAS
-    document.querySelectorAll('.aba-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            document.querySelectorAll('.aba-btn').forEach(b => b.classList.remove('ativa'));
-            document.querySelectorAll('.conteudo-aba').forEach(c => c.classList.add('oculto'));
-
-            e.target.classList.add('ativa');
-            const idAba = e.target.getAttribute('data-aba');
-            const abaTarget = document.getElementById(idAba);
-            if (abaTarget) abaTarget.classList.remove('oculto');
-        });
-    });
-
-    // RENDERIZAÇÃO DAS FICHAS LIMPAS
     function renderizarFichas(objetivo) {
         const container = document.getElementById('fichas-container');
         if (!container) return;
@@ -457,37 +363,26 @@ if (formPerfil) {
             `;
             container.innerHTML += cardHtml;
         });
-        // Cole aqui, logo abaixo do });
-    document.querySelectorAll('.chk-exercicio').forEach(checkbox => {
-        checkbox.addEventListener('change', (e) => {
-            const idExer = e.target.getAttribute('data-id');
-            progressoExer[idExer] = e.target.checked;
 
-            // Salva o progresso dinamicamente usando o e-mail do usuário ativo
-            if (usuarioLogado && usuarioLogado.email) {
-                localStorage.setItem(`progressoExer_${usuarioLogado.email}`, JSON.stringify(progressoExer));
-            }
-        });
-    });
-
-        // Event listener para checkboxes de progresso
+        // Event listeners para progresso dos exercícios
         document.querySelectorAll('.chk-exercicio').forEach(chk => {
             chk.addEventListener('change', (e) => {
                 const id = e.target.getAttribute('data-id');
                 const cardIdx = e.target.getAttribute('data-card');
 
                 progressoExer[id] = e.target.checked;
-                localStorage.setItem('progressoExer', JSON.stringify(progressoExer));
+                salvarDadosDoUsuario();
 
                 atualizarProgressoCard(cardIdx, listaTreinos[cardIdx]);
             });
         });
 
-        // Event listener para expansão do guia de execução
+        // Event listeners para guias de execução
         document.querySelectorAll('.btn-guia').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const id = e.target.getAttribute('data-id');
-                toggleGuia(id);
+                const box = document.getElementById(`guia-${id}`);
+                if (box) box.classList.toggle('oculto');
             });
         });
     }
@@ -532,63 +427,72 @@ if (formPerfil) {
         });
     }
 
+    // NAVEGAÇÃO DE ABAS
+    document.querySelectorAll('.aba-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            document.querySelectorAll('.aba-btn').forEach(b => b.classList.remove('ativa'));
+            document.querySelectorAll('.conteudo-aba').forEach(c => c.classList.add('oculto'));
 
-// GUIA EXPANSÍVEL
-function toggleGuia(id) {
-    const box = document.getElementById(`guia-${id}`);
-    if (box) {
-        box.classList.toggle('oculto');
-    }
-}
+            e.target.classList.add('ativa');
+            const idAba = e.target.getAttribute('data-aba');
+            const abaTarget = document.getElementById(idAba);
+            if (abaTarget) abaTarget.classList.remove('oculto');
+        });
+    });
 
-// CRONÔMETRO GLOBAL
-let tempoRestante = 0;
-let intervalTimer = null;
-
-function iniciarTimer(segundos) {
-    clearInterval(intervalTimer);
-    tempoRestante = segundos;
-    atualizarDisplayTimer();
-
-    intervalTimer = setInterval(() => {
-        tempoRestante--;
+    // CRONÔMETRO GLOBAL
+    window.iniciarTimer = function(segundos) {
+        clearInterval(intervalTimer);
+        tempoRestante = segundos;
         atualizarDisplayTimer();
 
-        if (tempoRestante <= 0) {
-            clearInterval(intervalTimer);
-            alert("⏰ Tempo de descanso finalizado!");
+        intervalTimer = setInterval(() => {
+            tempoRestante--;
+            atualizarDisplayTimer();
+
+            if (tempoRestante <= 0) {
+                clearInterval(intervalTimer);
+                alert("⏰ Tempo de descanso finalizado!");
+            }
+        }, 1000);
+    };
+
+    window.resetarTimer = function() {
+        clearInterval(intervalTimer);
+        tempoRestante = 0;
+        atualizarDisplayTimer();
+    };
+
+    function atualizarDisplayTimer() {
+        const min = String(Math.floor(tempoRestante / 60)).padStart(2, '0');
+        const seg = String(tempoRestante % 60).padStart(2, '0');
+        const display = document.getElementById('timer-display');
+        if (display) {
+            display.innerText = `${min}:${seg}`;
         }
-    }, 1000);
-}
-
-function resetarTimer() {
-    clearInterval(intervalTimer);
-    tempoRestante = 0;
-    atualizarDisplayTimer();
-}
-
-function atualizarDisplayTimer() {
-    const min = String(Math.floor(tempoRestante / 60)).padStart(2, '0');
-    const seg = String(tempoRestante % 60).padStart(2, '0');
-    const display = document.getElementById('timer-display');
-    if (display) {
-        display.innerText = `${min}:${seg}`;
     }
-}
+
+    // AUTO-LOGIN (INICIALIZAÇÃO)
+    if (usuarioLogado && usuarioLogado.email) {
+        carregarDadosDoUsuario(usuarioLogado.email);
+        ocultarTodasTelas();
+
+        if (dadosAluno && dadosAluno.nome) {
+            exibirFichaTreino();
+        } else {
+            document.getElementById('tela-inicio')?.classList.remove('oculto');
+        }
+    } else {
+        ocultarTodasTelas();
+        document.getElementById('tela-login')?.classList.remove('oculto');
+    }
+});
+
 // REGISTRO DO SERVICE WORKER (PWA)
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js')
-      .then((reg) => console.log('Service Worker registrado com sucesso:', reg.scope))
-      .catch((err) => console.error('Falha ao registrar Service Worker:', err));
-  });
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+            .then((reg) => console.log('Service Worker registrado com sucesso:', reg.scope))
+            .catch((err) => console.error('Falha ao registrar Service Worker:', err));
+    });
 }
-// FUNÇÃO PARA ESCONDER TODAS AS TELAS
-function ocultarTodasTelas() {
-    document.getElementById('tela-login')?.classList.add('oculto');
-    document.getElementById('tela-inicio')?.classList.add('oculto');
-    document.getElementById('tela-perfil')?.classList.add('oculto');
-    document.getElementById('tela-metas')?.classList.add('oculto');
-    document.getElementById('tela-treinos')?.classList.add('oculto');
-} 
-});
