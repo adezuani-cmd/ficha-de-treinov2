@@ -41,30 +41,32 @@ document.addEventListener('DOMContentLoaded', () => {
         telaLogin?.classList.remove('oculto');
     }
 
-   // 4. AO LOGAR OU CADASTRAR UM NOVO E-MAIL
-if (formLogin) {
-    formLogin.addEventListener('submit', (e) => {
-        e.preventDefault(); // Impede o recarregamento da página
+   // 4. AO LOGAR OU CADASTRAR UM NOVO E-MAIL (Escutando o botão direto)
+const btnLogin = document.querySelector('#form-login button') || document.querySelector('#form-login input[type="submit"]');
 
-        // Busca o input do e-mail (tenta pelo ID 'email-login' ou pelo primeiro input de e-mail/texto do formulário)
-        const inputEmail = document.getElementById('email-login') || formLogin.querySelector('input[type="email"]') || formLogin.querySelector('input');
+if (btnLogin) {
+    btnLogin.addEventListener('click', (e) => {
+        e.preventDefault(); // Trava a atualização da página imediatamente
+
+        // Busca o campo de e-mail
+        const inputEmail = document.getElementById('email-login') || document.querySelector('#form-login input[type="email"]');
         const emailInput = inputEmail ? inputEmail.value.toLowerCase().trim() : '';
 
         if (!emailInput) {
-            alert('Por favor, digite um e-mail válido.');
+            alert('Por favor, informe seu e-mail.');
             return;
         }
 
-        // Salva qual e-mail está com a sessão ativa
+        // Salva a sessão do usuário
         usuarioLogado = { email: emailInput, logado: true };
         localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
 
-        // Carrega os dados específicos deste e-mail
+        // Carrega os dados salvos desse e-mail
         carregarDadosDoUsuario(emailInput);
 
+        // Troca as telas na hora
         ocultarTodasTelas();
 
-        // Troca de tela na hora
         if (dadosAluno && dadosAluno.nome) {
             document.getElementById('tela-treinos')?.classList.remove('oculto');
         } else {
